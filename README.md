@@ -26,6 +26,8 @@ Querying the model is accomplished by traversing each tree to the query point's 
 ### Fitting
 Model fitting is straightforward:
 ```python
+from rpforest import RPForest
+
 model = RPForest(leaf_size=50, no_trees=10)
 model.fit(X)
 ```
@@ -41,6 +43,8 @@ Return nearest neighbours for vector x by first retrieving candidate NNs from x'
 ### Candidate queries
 rpforest can support indexing and candidate ANN queries on datasets larger than would fit in available memory. This is accomplished by first fitting the model on a subset of the data, then indexing a larger set of data into the fitted model:
 ```python
+from rpforest import RPForest
+
 model = RPForest(leaf_size=50, no_trees=10)
 model.fit(X_train)
 
