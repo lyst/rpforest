@@ -44,14 +44,15 @@ class PyTest(TestCommand):
 setup(
     name='rpforest',
     version='0.9',
-    description='Random Projection Trees for approximate nearest neighbours search.',
+    description='Random Projection Forest for approximate nearest neighbours search.',
     long_description='',
     packages=['rpforest'],
     install_requires=reqs,
     test_requires=['pytest', 'scikit-learn'],
     cmdclass={'test': PyTest},
-    author='Maciej Kula',
+    author='LYST Ltd (Maciej Kula)',
     license='Apache 2.0',
-    classifiers=['Development Status :: 3 - Alpha'],
+    classifiers=['Development Status :: 3 - Alpha',
+                 'License :: OSI Approved :: Apache Software License'],
     ext_modules=cythonize(extensions)
 )
