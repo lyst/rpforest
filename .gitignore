@@ -1,0 +1,6 @@
+*.pyc
+*.cpp
+*.so
+*.*~
+build/*
+rpforest.egg-info*
