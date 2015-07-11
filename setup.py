@@ -11,7 +11,7 @@ def define_extensions(file_ext):
     try:
         import numpy as np
     except ImportError:
-        print 'Please install numpy first.'
+        print('Please install numpy first.')
         raise
 
     return [Extension("rpforest.rpforest_fast",
