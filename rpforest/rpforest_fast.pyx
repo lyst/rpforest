@@ -40,6 +40,9 @@ cdef inline double dot(hyp *x, double[::1] y, unsigned int n) nogil:
 
 
 cpdef list encode_all(double[::1] x, list trees):
+    """
+    Return leaf codes for point x for all trees.
+    """
 
     cdef unsigned int i, dim
     cdef Tree tree
@@ -62,6 +65,9 @@ cdef vector[pair[double, int]] sort_candidates(double[::1] x,
                                                double[:, ::1] X,
                                                unsigned int dim,
                                                vector[int] candidates) nogil:
+    """
+    Perform final cosine similarity sorting step on merged candidates.
+    """
 
     cdef vector[pair[double, int]] scores
     cdef unsigned int i, j, no_candidates
@@ -91,6 +97,9 @@ cdef vector[pair[double, int]] sort_candidates(double[::1] x,
 
 
 cpdef query_all(double[::1] x, double[:, ::1] X, list trees, unsigned int n):
+    """
+    Return approximate nearest neighbours to point x from the model.
+    """
 
     cdef unsigned int i
     cdef unsigned int dim, no_returns
@@ -114,6 +123,11 @@ cpdef query_all(double[::1] x, double[:, ::1] X, list trees, unsigned int n):
 
 
 cpdef get_candidates_all(double[::1] x, list trees, unsigned int dim, int number):
+    """
+    Return all candidate nearest neighbours to point x without a final brute force
+    sorting step. The returned candidates are ordered by how many leaf nodes they
+    share with the query point.
+    """
 
     cdef unsigned int i, no_trees, no_candidates
     cdef int idx, prev_idx, idx_count
@@ -154,6 +168,9 @@ cpdef get_candidates_all(double[::1] x, list trees, unsigned int dim, int number
 
 
 cdef vector[int] _get_candidates(double[::1] x, list roots, int dim):
+    """
+    Get all memebers of x's leaf nodes.
+    """
 
     cdef unsigned int i
     cdef unsigned int no_roots = len(roots)
@@ -174,6 +191,9 @@ cdef vector[int] _get_candidates(double[::1] x, list roots, int dim):
 
 
 cdef class BArray:
+    """
+    Bytearray that keeps the track of the current offset.
+    """
 
     cdef arr
     cdef unsigned int offset
@@ -200,6 +220,10 @@ cdef class Tree:
         self.root = new_node(self.dim)
 
     def make_tree(self, double[:, ::1] X):
+        """
+        Recursively build a random projection tree
+        from X, starting at the root.
+        """
 
         cdef unsigned int i
 
@@ -209,6 +233,9 @@ cdef class Tree:
         make_tree(self.root, X, self.max_size, self.dim)
 
     def index(self, idx, double[::1] x):
+        """
+        Add a point to the tree.
+        """
 
         cdef Node *leaf
 
@@ -220,6 +247,9 @@ cdef class Tree:
         slim_all(self.root)
 
     def get_leaf_nodes(self):
+        """
+        Yields pairs of (leaf_node_code, leaf point indices).
+        """
 
         cdef unsigned int i
         cdef vector[Node*] leaves
@@ -233,6 +263,9 @@ cdef class Tree:
             yield leaf_codes[i], deref(leaves[i].indices)
 
     def serialize(self):
+        """
+        Serialize to a bytarray.
+        """
 
         ba = bytearray()
         ba.extend(struct.pack('@II',
@@ -244,6 +277,9 @@ cdef class Tree:
         return ba
 
     def deserialize(self, byte_array):
+        """
+        Read tree from a bytearray.
+        """
 
         cdef Node* node
 
@@ -262,10 +298,16 @@ cdef class Tree:
         self.root = read_node(ba, self.dim)
 
     def get_size(self):
+        """
+        Return the memory size of the tree, in bytes.
+        """
 
         return get_size(self.root, self.dim)
 
     def clear(self):
+        """
+        Remove all indexed points but retain the tree structure.
+        """
 
         clear(self.root)
 
@@ -275,6 +317,9 @@ cdef class Tree:
 
 
 cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigned int dim):
+    """
+    Recursively build a random projection tree starting at node.
+    """
 
     cdef int i
     cdef double dst
@@ -288,15 +333,19 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
         slim_node(node)
         return
 
+    # Allocate child nodes.
     left = new_node(dim)
     right = new_node(dim)
 
+    # Generate the random hyperplane.
     hyperplane = np.random.randn(dim)
     hyperplane /= np.linalg.norm(hyperplane)
 
     for i in range(dim):
         node.hyperplane[i] = <hyp>hyperplane[i]
 
+    # Calculate the median cosine similarity
+    # between the hyperplane and the points.
     for i in range(node.indices.size()):
         idx = deref(node.indices)[i]
         dst = dot(node.hyperplane,
@@ -307,6 +356,7 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
     sort(dist.begin(), dist.end())
     node.median = dist[dist.size() / 2]
 
+    # Split points at median similarity.
     for i in range(node.indices.size()):
         idx = deref(node.indices)[i]
         dst = dot(node.hyperplane,
@@ -317,21 +367,26 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
         else:
             right.indices.push_back(idx)
 
+    # Bail out on a failed split.
     if left.indices.size() == 0 or right.indices.size() == 0:
-        # Failed split
         slim_node(node)
         del_node(left)
         del_node(right)
         return
 
+    # Add point indices to children.
     add_descendants(node, left, right)
     slim_node(node)
 
+    # Recursively split child subtrees.
     make_tree(left, X, max_size, dim)
     make_tree(right, X, max_size, dim)
 
 
 cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str code):
+    """
+    Retrieve all leaf nodes.
+    """
 
     if node.n_descendants == 0:
         leaves.push_back(node)
@@ -342,6 +397,9 @@ cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str
 
 
 cdef void slim_all(Node *node):
+    """
+    Slim all nodes.
+    """
 
     slim_node(node)
 
@@ -363,6 +421,9 @@ cdef packed struct Node:
 
 
 cdef inline Node* new_node(unsigned int dim):
+    """
+    Allocate a new node.
+    """
 
     cdef Node *node = <Node *>malloc(sizeof(Node))
 
@@ -380,6 +441,10 @@ cdef inline Node* new_node(unsigned int dim):
 
 
 cdef inline void slim_node(Node *node) nogil:
+    """
+    Deallocate either the hyperplane or the indices vector,
+    depending if a node is a leaf or an internal node.
+    """
 
     if node.n_descendants > 0:
         if node.indices != NULL:
@@ -400,6 +465,9 @@ cdef inline void add_descendants(Node *node, Node *left, Node *right) nogil:
 
 
 cdef void del_node(Node *node) nogil:
+    """
+    Free a node.
+    """
 
     if node.n_descendants > 0:
         del_node(node.left)
@@ -412,6 +480,10 @@ cdef void del_node(Node *node) nogil:
 
 
 cdef void clear(Node *node) nogil:
+    """
+    Recursively remove all indexed points from node and
+    its children.
+    """
 
     if node.n_descendants == 0:
         node.indices.clear()
@@ -422,6 +494,10 @@ cdef void clear(Node *node) nogil:
 
 
 cdef long get_size(Node *node, unsigned int dim) nogil:
+    """
+    Recursively get the size (in bytes) of node and
+    its children.
+    """
 
     cdef long size = 0
 
@@ -439,6 +515,9 @@ cdef long get_size(Node *node, unsigned int dim) nogil:
 
 
 cdef Node* query(Node *node, double[::1] x, unsigned int dim) nogil:
+    """
+    Recursively query the node and its children.
+    """
 
     cdef double dst
 
@@ -456,6 +535,9 @@ cdef Node* query(Node *node, double[::1] x, unsigned int dim) nogil:
 
 
 cdef void encode(Node *node, double[::1] x, list code, unsigned int dim):
+    """
+    Recursively encode x.
+    """
 
     cdef double dst
 
@@ -476,6 +558,9 @@ cdef void encode(Node *node, double[::1] x, list code, unsigned int dim):
 
 # Serialisation and deserialisation
 cdef void write_node(Node *node, ba, unsigned int dim):
+    """
+    Recursively write nodes to a bytearray.
+    """
 
     cdef unsigned int i
 
@@ -500,6 +585,12 @@ cdef void write_node(Node *node, ba, unsigned int dim):
 
 
 cdef Node* read_node(BArray ba, unsigned int dim):
+    """
+    Recursively read nodes from bytearray.
+    """
+
+    # Using memcpy is orders of magnitude faster
+    # than using struct.unpack_from.
 
     cdef unsigned int i, size
     cdef int idx
