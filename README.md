@@ -20,6 +20,7 @@ Querying the model is accomplished by traversing each tree to the query point's 
 
 1. Clone the rpforest repository: `git clone git@github.com:lyst/rpforest.git`
 2. Install it using pip: `cd rpforest && pip install .`
+3. You can run tests by running `python setupy.py test`.
 
 ## Usage
 
@@ -68,3 +69,6 @@ model = pickle.loads(pickle.dumps(model))
 On the GloVe cosine distance benchmark, rpforest is not as fast as  highly optimised C and C++ packages like FLANN and annoy. However, it far outerpforms scikit-learn's [LSHForest](http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LSHForest.html) and [panns](https://github.com/ryanrhymes/panns).
 
 <center>![Performance](glove.png)</center>
+
+## Development
+Pull requests are welcome. When making changes to the `.pyx` extension files, you'll need to run `python setup.py cythonize` in order to produce the extension `.cpp` files before running `pip install -e .`.
