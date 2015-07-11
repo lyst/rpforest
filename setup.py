@@ -1,25 +1,71 @@
+import os
+import subprocess
 import sys
 
-from setuptools import setup, Extension
+from setuptools import setup, Command, Extension
 from setuptools.command.test import test as TestCommand
 
-import numpy as np
 
-try:
-    from Cython.Build import cythonize
-except:
-    print ('You must have Cython installed. '
-           'Run sudo pip install cython to do so.')
-    raise
+def define_extensions(file_ext):
 
-# Declare C extensions
-extensions = [Extension("rpforest.rpforest_fast", ['rpforest/rpforest_fast.pyx'],
-                        language="c++",
-                        include_dirs=[np.get_include()],
-                        extra_compile_args=["-std=c++11"],
-                        extra_link_args=["-std=c++11"])]
+    try:
+        import numpy as np
+    except ImportError:
+        print 'Please install numpy first.'
+        raise
 
-reqs = open('requirements.txt', 'r').read().split('\n')
+    return [Extension("rpforest.rpforest_fast",
+                      ['rpforest/rpforest_fast%s' % file_ext],
+                      language="c++",
+                      include_dirs=[np.get_include()],
+                      extra_compile_args=["-std=c++11"],
+                      extra_link_args=["-std=c++11"])]
+
+
+class Cythonize(Command):
+    """
+    Compile the extension .pyx files.
+    """
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+
+        import Cython
+        from Cython.Build import cythonize
+
+        assert float(Cython.__version__) >= 0.22
+
+        cythonize(define_extensions('.pyx'))
+
+
+class Clean(Command):
+    """
+    Clean build files.
+    """
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+
+        pth = os.path.dirname(os.path.abspath(__file__))
+
+        subprocess.call(['rm', '-rf', os.path.join(pth, 'build')])
+        subprocess.call(['rm', '-rf', os.path.join(pth, 'rpforest.egg-info')])
+        subprocess.call(['find', pth, '-name', 'rpforest*.pyc', '-type', 'f', '-delete'])
+        subprocess.call(['rm', os.path.join(pth, 'rpforest', 'rpforest_fast.so')])
 
 
 class PyTest(TestCommand):
@@ -35,10 +81,13 @@ class PyTest(TestCommand):
         self.test_suite = True
 
     def run_tests(self):
-        #import here, cause outside the eggs aren't loaded
+        # import here, cause outside the eggs aren't loaded
         import pytest
         errno = pytest.main(self.pytest_args)
         sys.exit(errno)
+
+
+reqs = open('requirements.txt', 'r').read().split('\n')
 
 
 setup(
@@ -48,11 +97,11 @@ setup(
     long_description='',
     packages=['rpforest'],
     install_requires=reqs,
-    test_requires=['pytest', 'scikit-learn'],
-    cmdclass={'test': PyTest},
+    tests_require=['pytest', 'scikit-learn', 'scipy'],
+    cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
     author='LYST Ltd (Maciej Kula)',
     license='Apache 2.0',
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: Apache Software License'],
-    ext_modules=cythonize(extensions)
+    ext_modules=define_extensions('.cpp')
 )

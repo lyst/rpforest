@@ -20,6 +20,7 @@ Querying the model is accomplished by traversing each tree to the query point's 
 
 1. Clone the rpforest repository: `git clone git@github.com:lyst/rpforest.git`
 2. Install it using pip: `cd rpforest && pip install .`
+3. You can run tests by running `python setupy.py test`.
 
 ## Usage
 
