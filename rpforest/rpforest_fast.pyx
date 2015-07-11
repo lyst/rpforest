@@ -503,7 +503,6 @@ cdef Node* read_node(BArray ba, unsigned int dim):
 
     cdef unsigned int i, size
     cdef int idx
-    cdef hyp hyp_elem
     cdef Node *node
 
     node = new_node(dim)
@@ -529,7 +528,7 @@ cdef Node* read_node(BArray ba, unsigned int dim):
     # Read hyperplane values if present
     else:
         for i in range(dim):
-            memcpy(&node.hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp_elem));
+            memcpy(&node.hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp));
             ba.offset += hyp_size
 
         # Read child nodes
