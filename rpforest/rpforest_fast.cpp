@@ -849,7 +849,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_t_8rpforest_13rpforest_fast_Node;
 
-/* "rpforest/rpforest_fast.pyx":353
+/* "rpforest/rpforest_fast.pyx":411
  * 
  * 
  * cdef packed struct Node:             # <<<<<<<<<<<<<<
@@ -875,12 +875,12 @@ struct __Pyx_PACKED __pyx_t_8rpforest_13rpforest_fast_Node {
   #pragma pack(pop)
 #endif
 
-/* "rpforest/rpforest_fast.pyx":176
+/* "rpforest/rpforest_fast.pyx":193
  * 
  * 
  * cdef class BArray:             # <<<<<<<<<<<<<<
- * 
- *     cdef arr
+ *     """
+ *     Bytearray that keeps the track of the current offset.
  */
 struct __pyx_obj_8rpforest_13rpforest_fast_BArray {
   PyObject_HEAD
@@ -890,7 +890,7 @@ struct __pyx_obj_8rpforest_13rpforest_fast_BArray {
 };
 
 
-/* "rpforest/rpforest_fast.pyx":189
+/* "rpforest/rpforest_fast.pyx":209
  * 
  * 
  * cdef class Tree:             # <<<<<<<<<<<<<<
@@ -905,12 +905,12 @@ struct __pyx_obj_8rpforest_13rpforest_fast_Tree {
 };
 
 
-/* "rpforest/rpforest_fast.pyx":222
+/* "rpforest/rpforest_fast.pyx":249
  *         slim_all(self.root)
  * 
  *     def get_leaf_nodes(self):             # <<<<<<<<<<<<<<
- * 
- *         cdef unsigned int i
+ *         """
+ *         Yields pairs of (leaf_node_code, leaf point indices).
  */
 struct __pyx_obj_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes {
   PyObject_HEAD
@@ -2148,8 +2148,8 @@ static CYTHON_INLINE double __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_t_8rpfor
  * 
  * 
  * cpdef list encode_all(double[::1] x, list trees):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, dim
+ *     """
+ *     Return leaf codes for point x for all trees.
  */
 
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_1encode_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -2174,7 +2174,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("encode_all", 0);
 
-  /* "rpforest/rpforest_fast.pyx":47
+  /* "rpforest/rpforest_fast.pyx":50
  *     cdef Tree tree
  *     cdef list code
  *     dim = x.shape[0]             # <<<<<<<<<<<<<<
@@ -2183,19 +2183,19 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
  */
   __pyx_v_dim = (__pyx_v_x.shape[0]);
 
-  /* "rpforest/rpforest_fast.pyx":49
+  /* "rpforest/rpforest_fast.pyx":52
  *     dim = x.shape[0]
  * 
  *     cdef list codes = []             # <<<<<<<<<<<<<<
  * 
  *     for i in range(len(trees)):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_codes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":51
+  /* "rpforest/rpforest_fast.pyx":54
  *     cdef list codes = []
  * 
  *     for i in range(len(trees)):             # <<<<<<<<<<<<<<
@@ -2204,13 +2204,13 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
  */
   if (unlikely(__pyx_v_trees == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_trees); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_trees); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "rpforest/rpforest_fast.pyx":52
+    /* "rpforest/rpforest_fast.pyx":55
  * 
  *     for i in range(len(trees)):
  *         tree = trees[i]             # <<<<<<<<<<<<<<
@@ -2219,15 +2219,15 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
  */
     if (unlikely(__pyx_v_trees == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    if (!(likely(((PyList_GET_ITEM(__pyx_v_trees, __pyx_v_i)) == Py_None) || likely(__Pyx_TypeTest(PyList_GET_ITEM(__pyx_v_trees, __pyx_v_i), __pyx_ptype_8rpforest_13rpforest_fast_Tree))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((PyList_GET_ITEM(__pyx_v_trees, __pyx_v_i)) == Py_None) || likely(__Pyx_TypeTest(PyList_GET_ITEM(__pyx_v_trees, __pyx_v_i), __pyx_ptype_8rpforest_13rpforest_fast_Tree))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_1 = PyList_GET_ITEM(__pyx_v_trees, __pyx_v_i);
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_tree, ((struct __pyx_obj_8rpforest_13rpforest_fast_Tree *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":53
+    /* "rpforest/rpforest_fast.pyx":56
  *     for i in range(len(trees)):
  *         tree = trees[i]
  *         root = tree.root             # <<<<<<<<<<<<<<
@@ -2237,19 +2237,19 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
     __pyx_t_4 = __pyx_v_tree->root;
     __pyx_v_root = __pyx_t_4;
 
-    /* "rpforest/rpforest_fast.pyx":54
+    /* "rpforest/rpforest_fast.pyx":57
  *         tree = trees[i]
  *         root = tree.root
  *         code = []             # <<<<<<<<<<<<<<
  *         encode(root, x, code, dim)
  *         codes.append('%s:' % i + ''.join(code))
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_code, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":55
+    /* "rpforest/rpforest_fast.pyx":58
  *         root = tree.root
  *         code = []
  *         encode(root, x, code, dim)             # <<<<<<<<<<<<<<
@@ -2258,29 +2258,29 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
  */
     __pyx_f_8rpforest_13rpforest_fast_encode(__pyx_v_root, __pyx_v_x, __pyx_v_code, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":56
+    /* "rpforest/rpforest_fast.pyx":59
  *         code = []
  *         encode(root, x, code, dim)
  *         codes.append('%s:' % i + ''.join(code))             # <<<<<<<<<<<<<<
  * 
  *     return codes
  */
-    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_v_code); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_v_code); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_codes, __pyx_t_6); if (unlikely(__pyx_t_7 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_codes, __pyx_t_6); if (unlikely(__pyx_t_7 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":58
+  /* "rpforest/rpforest_fast.pyx":61
  *         codes.append('%s:' % i + ''.join(code))
  * 
  *     return codes             # <<<<<<<<<<<<<<
@@ -2296,8 +2296,8 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
  * 
  * 
  * cpdef list encode_all(double[::1] x, list trees):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, dim
+ *     """
+ *     Return leaf codes for point x for all trees.
  */
 
   /* function exit code */
@@ -2318,6 +2318,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_encode_all(__Pyx_memviewslice
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_1encode_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_encode_all[] = "\n    Return leaf codes for point x for all trees.\n    ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_1encode_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_x = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_v_trees = 0;
@@ -2409,7 +2410,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_encode_all(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":61
+/* "rpforest/rpforest_fast.pyx":64
  * 
  * 
  * cdef vector[pair[double, int]] sort_candidates(double[::1] x,             # <<<<<<<<<<<<<<
@@ -2439,7 +2440,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "rpforest/rpforest_fast.pyx":71
+  /* "rpforest/rpforest_fast.pyx":77
  *     cdef double dst
  * 
  *     no_candidates = candidates.size()             # <<<<<<<<<<<<<<
@@ -2448,7 +2449,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
   __pyx_v_no_candidates = __pyx_v_candidates.size();
 
-  /* "rpforest/rpforest_fast.pyx":72
+  /* "rpforest/rpforest_fast.pyx":78
  * 
  *     no_candidates = candidates.size()
  *     scores.reserve(no_candidates)             # <<<<<<<<<<<<<<
@@ -2457,7 +2458,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
   __pyx_v_scores.reserve(__pyx_v_no_candidates);
 
-  /* "rpforest/rpforest_fast.pyx":73
+  /* "rpforest/rpforest_fast.pyx":79
  *     no_candidates = candidates.size()
  *     scores.reserve(no_candidates)
  *     sort(candidates.begin(), candidates.end())             # <<<<<<<<<<<<<<
@@ -2466,7 +2467,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
   std::sort<std::vector<int> ::iterator>(__pyx_v_candidates.begin(), __pyx_v_candidates.end());
 
-  /* "rpforest/rpforest_fast.pyx":75
+  /* "rpforest/rpforest_fast.pyx":81
  *     sort(candidates.begin(), candidates.end())
  * 
  *     prev_idx = -1             # <<<<<<<<<<<<<<
@@ -2475,7 +2476,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
   __pyx_v_prev_idx = -1;
 
-  /* "rpforest/rpforest_fast.pyx":76
+  /* "rpforest/rpforest_fast.pyx":82
  * 
  *     prev_idx = -1
  *     for i in range(no_candidates):             # <<<<<<<<<<<<<<
@@ -2486,7 +2487,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "rpforest/rpforest_fast.pyx":78
+    /* "rpforest/rpforest_fast.pyx":84
  *     for i in range(no_candidates):
  * 
  *         idx = candidates[i]             # <<<<<<<<<<<<<<
@@ -2495,7 +2496,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
     __pyx_v_idx = (__pyx_v_candidates[__pyx_v_i]);
 
-    /* "rpforest/rpforest_fast.pyx":80
+    /* "rpforest/rpforest_fast.pyx":86
  *         idx = candidates[i]
  * 
  *         if idx != prev_idx:             # <<<<<<<<<<<<<<
@@ -2505,7 +2506,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
     __pyx_t_3 = ((__pyx_v_idx != __pyx_v_prev_idx) != 0);
     if (__pyx_t_3) {
 
-      /* "rpforest/rpforest_fast.pyx":81
+      /* "rpforest/rpforest_fast.pyx":87
  * 
  *         if idx != prev_idx:
  *             dst = 0.0             # <<<<<<<<<<<<<<
@@ -2514,7 +2515,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
       __pyx_v_dst = 0.0;
 
-      /* "rpforest/rpforest_fast.pyx":82
+      /* "rpforest/rpforest_fast.pyx":88
  *         if idx != prev_idx:
  *             dst = 0.0
  *             for j in range(dim):             # <<<<<<<<<<<<<<
@@ -2525,7 +2526,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
       for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
         __pyx_v_j = __pyx_t_5;
 
-        /* "rpforest/rpforest_fast.pyx":83
+        /* "rpforest/rpforest_fast.pyx":89
  *             dst = 0.0
  *             for j in range(dim):
  *                 dst -= x[j] * X[idx, j]             # <<<<<<<<<<<<<<
@@ -2538,7 +2539,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
         __pyx_v_dst = (__pyx_v_dst - ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_6)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )))));
       }
 
-      /* "rpforest/rpforest_fast.pyx":84
+      /* "rpforest/rpforest_fast.pyx":90
  *             for j in range(dim):
  *                 dst -= x[j] * X[idx, j]
  *             scores.push_back(pair[double, int](dst, idx))             # <<<<<<<<<<<<<<
@@ -2555,7 +2556,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
         #ifdef WITH_THREAD
         PyGILState_Release(__pyx_gilstate_save);
         #endif
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       try {
         __pyx_v_scores.push_back(__pyx_t_9);
@@ -2567,13 +2568,13 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
         #ifdef WITH_THREAD
         PyGILState_Release(__pyx_gilstate_save);
         #endif
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       goto __pyx_L5;
     }
     __pyx_L5:;
 
-    /* "rpforest/rpforest_fast.pyx":86
+    /* "rpforest/rpforest_fast.pyx":92
  *             scores.push_back(pair[double, int](dst, idx))
  * 
  *         prev_idx = idx             # <<<<<<<<<<<<<<
@@ -2583,7 +2584,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
     __pyx_v_prev_idx = __pyx_v_idx;
   }
 
-  /* "rpforest/rpforest_fast.pyx":88
+  /* "rpforest/rpforest_fast.pyx":94
  *         prev_idx = idx
  * 
  *     sort(scores.begin(), scores.end())             # <<<<<<<<<<<<<<
@@ -2592,7 +2593,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
  */
   std::sort<std::vector<std::pair<double,int> > ::iterator>(__pyx_v_scores.begin(), __pyx_v_scores.end());
 
-  /* "rpforest/rpforest_fast.pyx":90
+  /* "rpforest/rpforest_fast.pyx":96
  *     sort(scores.begin(), scores.end())
  * 
  *     return scores             # <<<<<<<<<<<<<<
@@ -2602,7 +2603,7 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
   __pyx_r = __pyx_v_scores;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":61
+  /* "rpforest/rpforest_fast.pyx":64
  * 
  * 
  * cdef vector[pair[double, int]] sort_candidates(double[::1] x,             # <<<<<<<<<<<<<<
@@ -2617,12 +2618,12 @@ static std::vector<std::pair<double,int> >  __pyx_f_8rpforest_13rpforest_fast_so
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":93
+/* "rpforest/rpforest_fast.pyx":99
  * 
  * 
  * cpdef query_all(double[::1] x, double[:, ::1] X, list trees, unsigned int n):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Return approximate nearest neighbours to point x from the model.
  */
 
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_3query_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -2661,7 +2662,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
   __pyx_pybuffernd_result.data = NULL;
   __pyx_pybuffernd_result.rcbuffer = &__pyx_pybuffer_result;
 
-  /* "rpforest/rpforest_fast.pyx":102
+  /* "rpforest/rpforest_fast.pyx":111
  *     cdef cnp.ndarray[int, ndim=1] result
  * 
  *     dim = X.shape[1]             # <<<<<<<<<<<<<<
@@ -2670,7 +2671,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
  */
   __pyx_v_dim = (__pyx_v_X.shape[1]);
 
-  /* "rpforest/rpforest_fast.pyx":104
+  /* "rpforest/rpforest_fast.pyx":113
  *     dim = X.shape[1]
  * 
  *     candidates = _get_candidates(x, trees, dim)             # <<<<<<<<<<<<<<
@@ -2679,7 +2680,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
  */
   __pyx_v_candidates = __pyx_f_8rpforest_13rpforest_fast__get_candidates(__pyx_v_x, __pyx_v_trees, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":105
+  /* "rpforest/rpforest_fast.pyx":114
  * 
  *     candidates = _get_candidates(x, trees, dim)
  *     scores = sort_candidates(x, X, dim, candidates)             # <<<<<<<<<<<<<<
@@ -2688,7 +2689,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
  */
   __pyx_v_scores = __pyx_f_8rpforest_13rpforest_fast_sort_candidates(__pyx_v_x, __pyx_v_X, __pyx_v_dim, __pyx_v_candidates);
 
-  /* "rpforest/rpforest_fast.pyx":106
+  /* "rpforest/rpforest_fast.pyx":115
  *     candidates = _get_candidates(x, trees, dim)
  *     scores = sort_candidates(x, X, dim, candidates)
  *     no_returns = min(n, scores.size())             # <<<<<<<<<<<<<<
@@ -2704,40 +2705,40 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
   }
   __pyx_v_no_returns = __pyx_t_3;
 
-  /* "rpforest/rpforest_fast.pyx":108
+  /* "rpforest/rpforest_fast.pyx":117
  *     no_returns = min(n, scores.size())
  * 
  *     result = np.empty(no_returns, dtype=np.int32)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(no_returns):
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_no_returns); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_no_returns); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_int32); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_int32); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_9 = ((PyArrayObject *)__pyx_t_8);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2753,13 +2754,13 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
       }
     }
     __pyx_pybuffernd_result.diminfo[0].strides = __pyx_pybuffernd_result.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_result.diminfo[0].shape = __pyx_pybuffernd_result.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_10 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_10 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_9 = 0;
   __pyx_v_result = ((PyArrayObject *)__pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":110
+  /* "rpforest/rpforest_fast.pyx":119
  *     result = np.empty(no_returns, dtype=np.int32)
  * 
  *     for i in range(no_returns):             # <<<<<<<<<<<<<<
@@ -2770,7 +2771,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_2; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "rpforest/rpforest_fast.pyx":111
+    /* "rpforest/rpforest_fast.pyx":120
  * 
  *     for i in range(no_returns):
  *         result[i] = scores[i].second             # <<<<<<<<<<<<<<
@@ -2782,7 +2783,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
     *__Pyx_BufPtrStrided1d(int *, __pyx_pybuffernd_result.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_result.diminfo[0].strides) = __pyx_t_10;
   }
 
-  /* "rpforest/rpforest_fast.pyx":113
+  /* "rpforest/rpforest_fast.pyx":122
  *         result[i] = scores[i].second
  * 
  *     return result             # <<<<<<<<<<<<<<
@@ -2794,12 +2795,12 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
   __pyx_r = ((PyObject *)__pyx_v_result);
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":93
+  /* "rpforest/rpforest_fast.pyx":99
  * 
  * 
  * cpdef query_all(double[::1] x, double[:, ::1] X, list trees, unsigned int n):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Return approximate nearest neighbours to point x from the model.
  */
 
   /* function exit code */
@@ -2827,6 +2828,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_query_all(__Pyx_memviewslice 
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_3query_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_2query_all[] = "\n    Return approximate nearest neighbours to point x from the model.\n    ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_3query_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_x = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -2860,21 +2862,21 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_3query_all(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_X)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_trees)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "query_all") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "query_all") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -2884,20 +2886,20 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_3query_all(PyObject *__pyx_s
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1]); if (unlikely(!__pyx_v_X.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1]); if (unlikely(!__pyx_v_X.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_trees = ((PyObject*)values[2]);
-    __pyx_v_n = __Pyx_PyInt_As_unsigned_int(values[3]); if (unlikely((__pyx_v_n == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_n = __Pyx_PyInt_As_unsigned_int(values[3]); if (unlikely((__pyx_v_n == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("query_all", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("rpforest.rpforest_fast.query_all", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_trees), (&PyList_Type), 1, "trees", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_trees), (&PyList_Type), 1, "trees", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_8rpforest_13rpforest_fast_2query_all(__pyx_self, __pyx_v_x, __pyx_v_X, __pyx_v_trees, __pyx_v_n);
 
   /* function exit code */
@@ -2918,7 +2920,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_2query_all(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("query_all", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_8rpforest_13rpforest_fast_query_all(__pyx_v_x, __pyx_v_X, __pyx_v_trees, __pyx_v_n, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_8rpforest_13rpforest_fast_query_all(__pyx_v_x, __pyx_v_X, __pyx_v_trees, __pyx_v_n, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2937,12 +2939,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_2query_all(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":116
+/* "rpforest/rpforest_fast.pyx":125
  * 
  * 
  * cpdef get_candidates_all(double[::1] x, list trees, unsigned int dim, int number):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, no_trees, no_candidates
+ *     """
+ *     Return all candidate nearest neighbours to point x without a final brute force
  */
 
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -2975,7 +2977,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_candidates_all", 0);
 
-  /* "rpforest/rpforest_fast.pyx":124
+  /* "rpforest/rpforest_fast.pyx":138
  *     cdef int[::1] result
  * 
  *     candidates = _get_candidates(x, trees, dim)             # <<<<<<<<<<<<<<
@@ -2984,7 +2986,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   __pyx_v_candidates = __pyx_f_8rpforest_13rpforest_fast__get_candidates(__pyx_v_x, __pyx_v_trees, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":125
+  /* "rpforest/rpforest_fast.pyx":139
  * 
  *     candidates = _get_candidates(x, trees, dim)
  *     sort(candidates.begin(), candidates.end())             # <<<<<<<<<<<<<<
@@ -2993,7 +2995,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   std::sort<std::vector<int> ::iterator>(__pyx_v_candidates.begin(), __pyx_v_candidates.end());
 
-  /* "rpforest/rpforest_fast.pyx":127
+  /* "rpforest/rpforest_fast.pyx":141
  *     sort(candidates.begin(), candidates.end())
  * 
  *     prev_idx = -1             # <<<<<<<<<<<<<<
@@ -3002,7 +3004,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   __pyx_v_prev_idx = -1;
 
-  /* "rpforest/rpforest_fast.pyx":128
+  /* "rpforest/rpforest_fast.pyx":142
  * 
  *     prev_idx = -1
  *     idx_count = 0             # <<<<<<<<<<<<<<
@@ -3011,7 +3013,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   __pyx_v_idx_count = 0;
 
-  /* "rpforest/rpforest_fast.pyx":129
+  /* "rpforest/rpforest_fast.pyx":143
  *     prev_idx = -1
  *     idx_count = 0
  *     no_candidates = candidates.size()             # <<<<<<<<<<<<<<
@@ -3020,7 +3022,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   __pyx_v_no_candidates = __pyx_v_candidates.size();
 
-  /* "rpforest/rpforest_fast.pyx":131
+  /* "rpforest/rpforest_fast.pyx":145
  *     no_candidates = candidates.size()
  * 
  *     for i in range(no_candidates):             # <<<<<<<<<<<<<<
@@ -3031,7 +3033,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "rpforest/rpforest_fast.pyx":133
+    /* "rpforest/rpforest_fast.pyx":147
  *     for i in range(no_candidates):
  * 
  *         idx = candidates[i]             # <<<<<<<<<<<<<<
@@ -3040,7 +3042,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
     __pyx_v_idx = (__pyx_v_candidates[__pyx_v_i]);
 
-    /* "rpforest/rpforest_fast.pyx":135
+    /* "rpforest/rpforest_fast.pyx":149
  *         idx = candidates[i]
  * 
  *         if idx == prev_idx:             # <<<<<<<<<<<<<<
@@ -3050,7 +3052,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     __pyx_t_3 = ((__pyx_v_idx == __pyx_v_prev_idx) != 0);
     if (__pyx_t_3) {
 
-      /* "rpforest/rpforest_fast.pyx":136
+      /* "rpforest/rpforest_fast.pyx":150
  * 
  *         if idx == prev_idx:
  *             idx_count += 1             # <<<<<<<<<<<<<<
@@ -3062,7 +3064,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     }
     /*else*/ {
 
-      /* "rpforest/rpforest_fast.pyx":138
+      /* "rpforest/rpforest_fast.pyx":152
  *             idx_count += 1
  *         else:
  *             if prev_idx != -1:             # <<<<<<<<<<<<<<
@@ -3072,7 +3074,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
       __pyx_t_3 = ((__pyx_v_prev_idx != -1) != 0);
       if (__pyx_t_3) {
 
-        /* "rpforest/rpforest_fast.pyx":139
+        /* "rpforest/rpforest_fast.pyx":153
  *         else:
  *             if prev_idx != -1:
  *                 scores.push_back(pair[int, int](-idx_count, prev_idx))             # <<<<<<<<<<<<<<
@@ -3083,16 +3085,16 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
           __pyx_t_4 = std::pair<int,int> ((-__pyx_v_idx_count), __pyx_v_prev_idx);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         try {
           __pyx_v_scores.push_back(__pyx_t_4);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
 
-        /* "rpforest/rpforest_fast.pyx":140
+        /* "rpforest/rpforest_fast.pyx":154
  *             if prev_idx != -1:
  *                 scores.push_back(pair[int, int](-idx_count, prev_idx))
  *                 idx_count = 1             # <<<<<<<<<<<<<<
@@ -3106,7 +3108,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     }
     __pyx_L5:;
 
-    /* "rpforest/rpforest_fast.pyx":142
+    /* "rpforest/rpforest_fast.pyx":156
  *                 idx_count = 1
  * 
  *         prev_idx = idx             # <<<<<<<<<<<<<<
@@ -3116,7 +3118,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     __pyx_v_prev_idx = __pyx_v_idx;
   }
 
-  /* "rpforest/rpforest_fast.pyx":144
+  /* "rpforest/rpforest_fast.pyx":158
  *         prev_idx = idx
  * 
  *     scores.push_back(pair[int, int](idx_count, prev_idx))             # <<<<<<<<<<<<<<
@@ -3127,16 +3129,16 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     __pyx_t_4 = std::pair<int,int> (__pyx_v_idx_count, __pyx_v_prev_idx);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   try {
     __pyx_v_scores.push_back(__pyx_t_4);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "rpforest/rpforest_fast.pyx":145
+  /* "rpforest/rpforest_fast.pyx":159
  * 
  *     scores.push_back(pair[int, int](idx_count, prev_idx))
  *     sort(scores.begin(), scores.end())             # <<<<<<<<<<<<<<
@@ -3145,35 +3147,35 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  */
   std::sort<std::vector<std::pair<int,int> > ::iterator>(__pyx_v_scores.begin(), __pyx_v_scores.end());
 
-  /* "rpforest/rpforest_fast.pyx":147
+  /* "rpforest/rpforest_fast.pyx":161
  *     sort(scores.begin(), scores.end())
  * 
  *     result_arr = np.empty(scores.size(), dtype=np.int32)             # <<<<<<<<<<<<<<
  *     result = result_arr
  * 
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_scores.size()); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_scores.size()); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_int32); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_int32); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3181,7 +3183,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
   __pyx_v_result_arr = __pyx_t_9;
   __pyx_t_9 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":148
+  /* "rpforest/rpforest_fast.pyx":162
  * 
  *     result_arr = np.empty(scores.size(), dtype=np.int32)
  *     result = result_arr             # <<<<<<<<<<<<<<
@@ -3189,12 +3191,12 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
  *     for i in range(scores.size()):
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_result_arr);
-  if (unlikely(!__pyx_t_10.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__pyx_t_10.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_result = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "rpforest/rpforest_fast.pyx":150
+  /* "rpforest/rpforest_fast.pyx":164
  *     result = result_arr
  * 
  *     for i in range(scores.size()):             # <<<<<<<<<<<<<<
@@ -3205,7 +3207,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
   for (__pyx_t_1 = 0; __pyx_t_1 < __pyx_t_11; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "rpforest/rpforest_fast.pyx":151
+    /* "rpforest/rpforest_fast.pyx":165
  * 
  *     for i in range(scores.size()):
  *         result[i] = scores[i].second             # <<<<<<<<<<<<<<
@@ -3217,7 +3219,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
     *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_result.data) + __pyx_t_2)) )) = __pyx_t_12;
   }
 
-  /* "rpforest/rpforest_fast.pyx":153
+  /* "rpforest/rpforest_fast.pyx":167
  *         result[i] = scores[i].second
  * 
  *     return result_arr             # <<<<<<<<<<<<<<
@@ -3229,12 +3231,12 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
   __pyx_r = __pyx_v_result_arr;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":116
+  /* "rpforest/rpforest_fast.pyx":125
  * 
  * 
  * cpdef get_candidates_all(double[::1] x, list trees, unsigned int dim, int number):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, no_trees, no_candidates
+ *     """
+ *     Return all candidate nearest neighbours to point x without a final brute force
  */
 
   /* function exit code */
@@ -3257,6 +3259,7 @@ static PyObject *__pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__Pyx_memv
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4get_candidates_all[] = "\n    Return all candidate nearest neighbours to point x without a final brute force\n    sorting step. The returned candidates are ordered by how many leaf nodes they\n    share with the query point.\n    ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_x = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_v_trees = 0;
@@ -3290,21 +3293,21 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_trees)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dim)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_number)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_candidates_all") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_candidates_all") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -3314,20 +3317,20 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all(PyObject
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_trees = ((PyObject*)values[1]);
-    __pyx_v_dim = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_dim == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_number = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_number == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_dim = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_dim == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_number = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_number == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("get_candidates_all", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("rpforest.rpforest_fast.get_candidates_all", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_trees), (&PyList_Type), 1, "trees", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_trees), (&PyList_Type), 1, "trees", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_8rpforest_13rpforest_fast_4get_candidates_all(__pyx_self, __pyx_v_x, __pyx_v_trees, __pyx_v_dim, __pyx_v_number);
 
   /* function exit code */
@@ -3348,7 +3351,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4get_candidates_all(CYTHON_U
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_candidates_all", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__pyx_v_x, __pyx_v_trees, __pyx_v_dim, __pyx_v_number, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_8rpforest_13rpforest_fast_get_candidates_all(__pyx_v_x, __pyx_v_trees, __pyx_v_dim, __pyx_v_number, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3366,12 +3369,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4get_candidates_all(CYTHON_U
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":156
+/* "rpforest/rpforest_fast.pyx":170
  * 
  * 
  * cdef vector[int] _get_candidates(double[::1] x, list roots, int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Get all memebers of x's leaf nodes.
  */
 
 static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx_memviewslice __pyx_v_x, PyObject *__pyx_v_roots, int __pyx_v_dim) {
@@ -3393,7 +3396,7 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_get_candidates", 0);
 
-  /* "rpforest/rpforest_fast.pyx":159
+  /* "rpforest/rpforest_fast.pyx":176
  * 
  *     cdef unsigned int i
  *     cdef unsigned int no_roots = len(roots)             # <<<<<<<<<<<<<<
@@ -3402,12 +3405,12 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
  */
   if (unlikely(__pyx_v_roots == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_roots); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_roots); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_no_roots = __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":165
+  /* "rpforest/rpforest_fast.pyx":182
  *     cdef vector[int] candidates
  * 
  *     for i in range(no_roots):             # <<<<<<<<<<<<<<
@@ -3418,7 +3421,7 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "rpforest/rpforest_fast.pyx":166
+    /* "rpforest/rpforest_fast.pyx":183
  * 
  *     for i in range(no_roots):
  *         tree = roots[i]             # <<<<<<<<<<<<<<
@@ -3427,15 +3430,15 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
  */
     if (unlikely(__pyx_v_roots == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    if (!(likely(((PyList_GET_ITEM(__pyx_v_roots, __pyx_v_i)) == Py_None) || likely(__Pyx_TypeTest(PyList_GET_ITEM(__pyx_v_roots, __pyx_v_i), __pyx_ptype_8rpforest_13rpforest_fast_Tree))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((PyList_GET_ITEM(__pyx_v_roots, __pyx_v_i)) == Py_None) || likely(__Pyx_TypeTest(PyList_GET_ITEM(__pyx_v_roots, __pyx_v_i), __pyx_ptype_8rpforest_13rpforest_fast_Tree))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_4 = PyList_GET_ITEM(__pyx_v_roots, __pyx_v_i);
     __Pyx_INCREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_tree, ((struct __pyx_obj_8rpforest_13rpforest_fast_Tree *)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":167
+    /* "rpforest/rpforest_fast.pyx":184
  *     for i in range(no_roots):
  *         tree = roots[i]
  *         root = tree.root             # <<<<<<<<<<<<<<
@@ -3445,7 +3448,7 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
     __pyx_t_5 = __pyx_v_tree->root;
     __pyx_v_root = __pyx_t_5;
 
-    /* "rpforest/rpforest_fast.pyx":168
+    /* "rpforest/rpforest_fast.pyx":185
  *         tree = roots[i]
  *         root = tree.root
  *         leaf = query(root, x, dim)             # <<<<<<<<<<<<<<
@@ -3454,7 +3457,7 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
  */
     __pyx_v_leaf = __pyx_f_8rpforest_13rpforest_fast_query(__pyx_v_root, __pyx_v_x, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":169
+    /* "rpforest/rpforest_fast.pyx":186
  *         root = tree.root
  *         leaf = query(root, x, dim)
  *         candidates.insert(candidates.end(),             # <<<<<<<<<<<<<<
@@ -3465,11 +3468,11 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
       __pyx_v_candidates.insert(__pyx_v_candidates.end(), __pyx_v_leaf->indices->begin(), __pyx_v_leaf->indices->end());
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
 
-  /* "rpforest/rpforest_fast.pyx":173
+  /* "rpforest/rpforest_fast.pyx":190
  *                           leaf.indices.end())
  * 
  *     return candidates             # <<<<<<<<<<<<<<
@@ -3479,12 +3482,12 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
   __pyx_r = __pyx_v_candidates;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":156
+  /* "rpforest/rpforest_fast.pyx":170
  * 
  * 
  * cdef vector[int] _get_candidates(double[::1] x, list roots, int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Get all memebers of x's leaf nodes.
  */
 
   /* function exit code */
@@ -3497,7 +3500,7 @@ static std::vector<int>  __pyx_f_8rpforest_13rpforest_fast__get_candidates(__Pyx
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":182
+/* "rpforest/rpforest_fast.pyx":202
  *     cdef char* char_arr
  * 
  *     def __init__(self, ba, unsigned int offset):             # <<<<<<<<<<<<<<
@@ -3536,11 +3539,11 @@ static int __pyx_pw_8rpforest_13rpforest_fast_6BArray_1__init__(PyObject *__pyx_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_offset)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3549,11 +3552,11 @@ static int __pyx_pw_8rpforest_13rpforest_fast_6BArray_1__init__(PyObject *__pyx_
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_ba = values[0];
-    __pyx_v_offset = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_offset == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_offset = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_offset == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("rpforest.rpforest_fast.BArray.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3575,7 +3578,7 @@ static int __pyx_pf_8rpforest_13rpforest_fast_6BArray___init__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "rpforest/rpforest_fast.pyx":184
+  /* "rpforest/rpforest_fast.pyx":204
  *     def __init__(self, ba, unsigned int offset):
  * 
  *         self.arr = ba             # <<<<<<<<<<<<<<
@@ -3588,7 +3591,7 @@ static int __pyx_pf_8rpforest_13rpforest_fast_6BArray___init__(struct __pyx_obj_
   __Pyx_DECREF(__pyx_v_self->arr);
   __pyx_v_self->arr = __pyx_v_ba;
 
-  /* "rpforest/rpforest_fast.pyx":185
+  /* "rpforest/rpforest_fast.pyx":205
  * 
  *         self.arr = ba
  *         self.offset = offset             # <<<<<<<<<<<<<<
@@ -3597,17 +3600,17 @@ static int __pyx_pf_8rpforest_13rpforest_fast_6BArray___init__(struct __pyx_obj_
  */
   __pyx_v_self->offset = __pyx_v_offset;
 
-  /* "rpforest/rpforest_fast.pyx":186
+  /* "rpforest/rpforest_fast.pyx":206
  *         self.arr = ba
  *         self.offset = offset
  *         self.char_arr = self.arr             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_self->arr); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_self->arr); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->char_arr = __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":182
+  /* "rpforest/rpforest_fast.pyx":202
  *     cdef char* char_arr
  * 
  *     def __init__(self, ba, unsigned int offset):             # <<<<<<<<<<<<<<
@@ -3626,7 +3629,7 @@ static int __pyx_pf_8rpforest_13rpforest_fast_6BArray___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":195
+/* "rpforest/rpforest_fast.pyx":215
  *     cdef unsigned int dim
  * 
  *     def __init__(self, max_size, dim):             # <<<<<<<<<<<<<<
@@ -3665,11 +3668,11 @@ static int __pyx_pw_8rpforest_13rpforest_fast_4Tree_1__init__(PyObject *__pyx_v_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dim)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3682,7 +3685,7 @@ static int __pyx_pw_8rpforest_13rpforest_fast_4Tree_1__init__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("rpforest.rpforest_fast.Tree.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3704,27 +3707,27 @@ static int __pyx_pf_8rpforest_13rpforest_fast_4Tree___init__(struct __pyx_obj_8r
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "rpforest/rpforest_fast.pyx":197
+  /* "rpforest/rpforest_fast.pyx":217
  *     def __init__(self, max_size, dim):
  * 
  *         self.max_size = max_size             # <<<<<<<<<<<<<<
  *         self.dim = dim
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_max_size); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_max_size); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->max_size = __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":198
+  /* "rpforest/rpforest_fast.pyx":218
  * 
  *         self.max_size = max_size
  *         self.dim = dim             # <<<<<<<<<<<<<<
  * 
  *         self.root = new_node(self.dim)
  */
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_dim); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_dim); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->dim = __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":200
+  /* "rpforest/rpforest_fast.pyx":220
  *         self.dim = dim
  * 
  *         self.root = new_node(self.dim)             # <<<<<<<<<<<<<<
@@ -3733,7 +3736,7 @@ static int __pyx_pf_8rpforest_13rpforest_fast_4Tree___init__(struct __pyx_obj_8r
  */
   __pyx_v_self->root = __pyx_f_8rpforest_13rpforest_fast_new_node(__pyx_v_self->dim);
 
-  /* "rpforest/rpforest_fast.pyx":195
+  /* "rpforest/rpforest_fast.pyx":215
  *     cdef unsigned int dim
  * 
  *     def __init__(self, max_size, dim):             # <<<<<<<<<<<<<<
@@ -3752,16 +3755,17 @@ static int __pyx_pf_8rpforest_13rpforest_fast_4Tree___init__(struct __pyx_obj_8r
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":202
+/* "rpforest/rpforest_fast.pyx":222
  *         self.root = new_node(self.dim)
  * 
  *     def make_tree(self, double[:, ::1] X):             # <<<<<<<<<<<<<<
- * 
- *         cdef unsigned int i
+ *         """
+ *         Recursively build a random projection tree
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_3make_tree(PyObject *__pyx_v_self, PyObject *__pyx_arg_X); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_2make_tree[] = "\n        Recursively build a random projection tree\n        from X, starting at the root.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_3make_tree(PyObject *__pyx_v_self, PyObject *__pyx_arg_X) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
@@ -3771,7 +3775,7 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_3make_tree(PyObject *_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("make_tree (wrapper)", 0);
   assert(__pyx_arg_X); {
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X); if (unlikely(!__pyx_v_X.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X); if (unlikely(!__pyx_v_X.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3797,7 +3801,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_2make_tree(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("make_tree", 0);
 
-  /* "rpforest/rpforest_fast.pyx":206
+  /* "rpforest/rpforest_fast.pyx":230
  *         cdef unsigned int i
  * 
  *         for i in range(X.shape[0]):             # <<<<<<<<<<<<<<
@@ -3808,7 +3812,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_2make_tree(struct __py
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "rpforest/rpforest_fast.pyx":207
+    /* "rpforest/rpforest_fast.pyx":231
  * 
  *         for i in range(X.shape[0]):
  *             self.root.indices.push_back(i)             # <<<<<<<<<<<<<<
@@ -3819,11 +3823,11 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_2make_tree(struct __py
       __pyx_v_self->root->indices->push_back(__pyx_v_i);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
 
-  /* "rpforest/rpforest_fast.pyx":209
+  /* "rpforest/rpforest_fast.pyx":233
  *             self.root.indices.push_back(i)
  * 
  *         make_tree(self.root, X, self.max_size, self.dim)             # <<<<<<<<<<<<<<
@@ -3832,12 +3836,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_2make_tree(struct __py
  */
   __pyx_f_8rpforest_13rpforest_fast_make_tree(__pyx_v_self->root, __pyx_v_X, __pyx_v_self->max_size, __pyx_v_self->dim);
 
-  /* "rpforest/rpforest_fast.pyx":202
+  /* "rpforest/rpforest_fast.pyx":222
  *         self.root = new_node(self.dim)
  * 
  *     def make_tree(self, double[:, ::1] X):             # <<<<<<<<<<<<<<
- * 
- *         cdef unsigned int i
+ *         """
+ *         Recursively build a random projection tree
  */
 
   /* function exit code */
@@ -3853,16 +3857,17 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_2make_tree(struct __py
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":211
+/* "rpforest/rpforest_fast.pyx":235
  *         make_tree(self.root, X, self.max_size, self.dim)
  * 
  *     def index(self, idx, double[::1] x):             # <<<<<<<<<<<<<<
- * 
- *         cdef Node *leaf
+ *         """
+ *         Add a point to the tree.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_4index[] = "\n        Add a point to the tree.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_idx = 0;
   __Pyx_memviewslice __pyx_v_x = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3892,11 +3897,11 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("index", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("index", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "index") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "index") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3905,11 +3910,11 @@ static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index(PyObject *__pyx
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_idx = values[0];
-    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("index", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("index", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("rpforest.rpforest_fast.Tree.index", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3932,7 +3937,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_4index(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("index", 0);
 
-  /* "rpforest/rpforest_fast.pyx":215
+  /* "rpforest/rpforest_fast.pyx":242
  *         cdef Node *leaf
  * 
  *         leaf = query(self.root, x, self.dim)             # <<<<<<<<<<<<<<
@@ -3941,27 +3946,27 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_4index(struct __pyx_ob
  */
   __pyx_v_leaf = __pyx_f_8rpforest_13rpforest_fast_query(__pyx_v_self->root, __pyx_v_x, __pyx_v_self->dim);
 
-  /* "rpforest/rpforest_fast.pyx":216
+  /* "rpforest/rpforest_fast.pyx":243
  * 
  *         leaf = query(self.root, x, self.dim)
  *         leaf.indices.push_back(idx)             # <<<<<<<<<<<<<<
  * 
  *     def shrink_to_size(self):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_idx); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_idx); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   try {
     __pyx_v_leaf->indices->push_back(__pyx_t_1);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "rpforest/rpforest_fast.pyx":211
+  /* "rpforest/rpforest_fast.pyx":235
  *         make_tree(self.root, X, self.max_size, self.dim)
  * 
  *     def index(self, idx, double[::1] x):             # <<<<<<<<<<<<<<
- * 
- *         cdef Node *leaf
+ *         """
+ *         Add a point to the tree.
  */
 
   /* function exit code */
@@ -3977,7 +3982,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_4index(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":218
+/* "rpforest/rpforest_fast.pyx":245
  *         leaf.indices.push_back(idx)
  * 
  *     def shrink_to_size(self):             # <<<<<<<<<<<<<<
@@ -4003,7 +4008,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_6shrink_to_size(struct
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("shrink_to_size", 0);
 
-  /* "rpforest/rpforest_fast.pyx":220
+  /* "rpforest/rpforest_fast.pyx":247
  *     def shrink_to_size(self):
  * 
  *         slim_all(self.root)             # <<<<<<<<<<<<<<
@@ -4012,7 +4017,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_6shrink_to_size(struct
  */
   __pyx_f_8rpforest_13rpforest_fast_slim_all(__pyx_v_self->root);
 
-  /* "rpforest/rpforest_fast.pyx":218
+  /* "rpforest/rpforest_fast.pyx":245
  *         leaf.indices.push_back(idx)
  * 
  *     def shrink_to_size(self):             # <<<<<<<<<<<<<<
@@ -4028,16 +4033,17 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_6shrink_to_size(struct
 }
 static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_GeneratorObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
-/* "rpforest/rpforest_fast.pyx":222
+/* "rpforest/rpforest_fast.pyx":249
  *         slim_all(self.root)
  * 
  *     def get_leaf_nodes(self):             # <<<<<<<<<<<<<<
- * 
- *         cdef unsigned int i
+ *         """
+ *         Yields pairs of (leaf_node_code, leaf point indices).
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_9get_leaf_nodes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_8get_leaf_nodes[] = "\n        Yields pairs of (leaf_node_code, leaf point indices).\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_9get_leaf_nodes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -4067,7 +4073,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_8get_leaf_nodes(struct
   __Pyx_INCREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
   {
-    __pyx_GeneratorObject *gen = __Pyx_Generator_New((__pyx_generator_body_t) __pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_get_leaf_nodes, __pyx_n_s_Tree_get_leaf_nodes); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_GeneratorObject *gen = __Pyx_Generator_New((__pyx_generator_body_t) __pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_get_leaf_nodes, __pyx_n_s_Tree_get_leaf_nodes); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -4104,22 +4110,22 @@ static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_Gene
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "rpforest/rpforest_fast.pyx":226
+  /* "rpforest/rpforest_fast.pyx":256
  *         cdef unsigned int i
  *         cdef vector[Node*] leaves
  *         cdef list leaf_codes = []             # <<<<<<<<<<<<<<
  * 
  *         get_leaf_nodes(self.root, &leaves, leaf_codes, '')
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_leaf_codes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":228
+  /* "rpforest/rpforest_fast.pyx":258
  *         cdef list leaf_codes = []
  * 
  *         get_leaf_nodes(self.root, &leaves, leaf_codes, '')             # <<<<<<<<<<<<<<
@@ -4128,7 +4134,7 @@ static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_Gene
  */
   __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(__pyx_cur_scope->__pyx_v_self->root, (&__pyx_cur_scope->__pyx_v_leaves), __pyx_cur_scope->__pyx_v_leaf_codes, __pyx_kp_s_);
 
-  /* "rpforest/rpforest_fast.pyx":230
+  /* "rpforest/rpforest_fast.pyx":260
  *         get_leaf_nodes(self.root, &leaves, leaf_codes, '')
  * 
  *         assert len(leaf_codes) == leaves.size()             # <<<<<<<<<<<<<<
@@ -4137,35 +4143,35 @@ static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_Gene
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_2 = PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_leaf_codes); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_leaf_codes); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (unlikely(!((__pyx_t_2 == __pyx_cur_scope->__pyx_v_leaves.size()) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
 
-  /* "rpforest/rpforest_fast.pyx":232
+  /* "rpforest/rpforest_fast.pyx":262
  *         assert len(leaf_codes) == leaves.size()
  * 
  *         for i in range(len(leaf_codes)):             # <<<<<<<<<<<<<<
  *             yield leaf_codes[i], deref(leaves[i].indices)
  * 
  */
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_leaf_codes); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_leaf_codes); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_cur_scope->__pyx_v_i = __pyx_t_3;
 
-    /* "rpforest/rpforest_fast.pyx":233
+    /* "rpforest/rpforest_fast.pyx":263
  * 
  *         for i in range(len(leaf_codes)):
  *             yield leaf_codes[i], deref(leaves[i].indices)             # <<<<<<<<<<<<<<
  * 
  *     def serialize(self):
  */
-    __pyx_t_1 = __pyx_convert_vector_to_py_int((*(__pyx_cur_scope->__pyx_v_leaves[__pyx_cur_scope->__pyx_v_i])->indices)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __pyx_convert_vector_to_py_int((*(__pyx_cur_scope->__pyx_v_leaves[__pyx_cur_scope->__pyx_v_i])->indices)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(PyList_GET_ITEM(__pyx_cur_scope->__pyx_v_leaf_codes, __pyx_cur_scope->__pyx_v_i));
     PyTuple_SET_ITEM(__pyx_t_4, 0, PyList_GET_ITEM(__pyx_cur_scope->__pyx_v_leaf_codes, __pyx_cur_scope->__pyx_v_i));
@@ -4185,15 +4191,15 @@ static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_Gene
     __pyx_L6_resume_from_yield:;
     __pyx_t_2 = __pyx_cur_scope->__pyx_t_0;
     __pyx_t_3 = __pyx_cur_scope->__pyx_t_1;
-    if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "rpforest/rpforest_fast.pyx":222
+  /* "rpforest/rpforest_fast.pyx":249
  *         slim_all(self.root)
  * 
  *     def get_leaf_nodes(self):             # <<<<<<<<<<<<<<
- * 
- *         cdef unsigned int i
+ *         """
+ *         Yields pairs of (leaf_node_code, leaf point indices).
  */
 
   /* function exit code */
@@ -4211,16 +4217,17 @@ static PyObject *__pyx_gb_8rpforest_13rpforest_fast_4Tree_10generator(__pyx_Gene
   return NULL;
 }
 
-/* "rpforest/rpforest_fast.pyx":235
+/* "rpforest/rpforest_fast.pyx":265
  *             yield leaf_codes[i], deref(leaves[i].indices)
  * 
  *     def serialize(self):             # <<<<<<<<<<<<<<
- * 
- *         ba = bytearray()
+ *         """
+ *         Serialize to a bytarray.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_12serialize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_11serialize[] = "\n        Serialize to a bytarray.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_12serialize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -4250,51 +4257,51 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("serialize", 0);
 
-  /* "rpforest/rpforest_fast.pyx":237
- *     def serialize(self):
+  /* "rpforest/rpforest_fast.pyx":270
+ *         """
  * 
  *         ba = bytearray()             # <<<<<<<<<<<<<<
  *         ba.extend(struct.pack('@II',
  *                               self.max_size,
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)(&PyByteArray_Type))), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)(&PyByteArray_Type))), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 270; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ba = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":238
+  /* "rpforest/rpforest_fast.pyx":271
  * 
  *         ba = bytearray()
  *         ba.extend(struct.pack('@II',             # <<<<<<<<<<<<<<
  *                               self.max_size,
  *                               self.dim))
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":239
+  /* "rpforest/rpforest_fast.pyx":272
  *         ba = bytearray()
  *         ba.extend(struct.pack('@II',
  *                               self.max_size,             # <<<<<<<<<<<<<<
  *                               self.dim))
  * 
  */
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->max_size); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->max_size); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "rpforest/rpforest_fast.pyx":240
+  /* "rpforest/rpforest_fast.pyx":273
  *         ba.extend(struct.pack('@II',
  *                               self.max_size,
  *                               self.dim))             # <<<<<<<<<<<<<<
  * 
  *         write_node(self.root, ba, self.dim)
  */
-  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->dim); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->dim); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   __pyx_t_8 = 0;
@@ -4308,7 +4315,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
       __pyx_t_8 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   if (__pyx_t_7) {
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __Pyx_GIVEREF(__pyx_t_7); __pyx_t_7 = NULL;
@@ -4322,7 +4329,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
   __Pyx_GIVEREF(__pyx_t_6);
   __pyx_t_4 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4337,24 +4344,24 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_9);
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
     PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":242
+  /* "rpforest/rpforest_fast.pyx":275
  *                               self.dim))
  * 
  *         write_node(self.root, ba, self.dim)             # <<<<<<<<<<<<<<
@@ -4363,7 +4370,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
  */
   __pyx_f_8rpforest_13rpforest_fast_write_node(__pyx_v_self->root, __pyx_v_ba, __pyx_v_self->dim);
 
-  /* "rpforest/rpforest_fast.pyx":244
+  /* "rpforest/rpforest_fast.pyx":277
  *         write_node(self.root, ba, self.dim)
  * 
  *         return ba             # <<<<<<<<<<<<<<
@@ -4375,12 +4382,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
   __pyx_r = __pyx_v_ba;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":235
+  /* "rpforest/rpforest_fast.pyx":265
  *             yield leaf_codes[i], deref(leaves[i].indices)
  * 
  *     def serialize(self):             # <<<<<<<<<<<<<<
- * 
- *         ba = bytearray()
+ *         """
+ *         Serialize to a bytarray.
  */
 
   /* function exit code */
@@ -4402,16 +4409,17 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_11serialize(struct __p
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":246
+/* "rpforest/rpforest_fast.pyx":279
  *         return ba
  * 
  *     def deserialize(self, byte_array):             # <<<<<<<<<<<<<<
- * 
- *         cdef Node* node
+ *         """
+ *         Read tree from a bytearray.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_14deserialize(PyObject *__pyx_v_self, PyObject *__pyx_v_byte_array); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_13deserialize[] = "\n        Read tree from a bytearray.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_14deserialize(PyObject *__pyx_v_self, PyObject *__pyx_v_byte_array) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -4437,14 +4445,14 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("deserialize", 0);
 
-  /* "rpforest/rpforest_fast.pyx":250
+  /* "rpforest/rpforest_fast.pyx":286
  *         cdef Node* node
  * 
  *         ba = BArray(byte_array, 0)             # <<<<<<<<<<<<<<
  * 
  *         self.max_size = struct.unpack_from('@I',
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 250; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_byte_array);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_byte_array);
@@ -4452,33 +4460,33 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
   __Pyx_INCREF(__pyx_int_0);
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_8rpforest_13rpforest_fast_BArray)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 250; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_8rpforest_13rpforest_fast_BArray)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_ba = ((struct __pyx_obj_8rpforest_13rpforest_fast_BArray *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":252
+  /* "rpforest/rpforest_fast.pyx":288
  *         ba = BArray(byte_array, 0)
  * 
  *         self.max_size = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_unpack_from); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_unpack_from); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":253
+  /* "rpforest/rpforest_fast.pyx":289
  * 
  *         self.max_size = struct.unpack_from('@I',
  *                                            ba.arr,             # <<<<<<<<<<<<<<
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_s_I);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_I);
@@ -4487,55 +4495,55 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_ba->arr);
   __Pyx_GIVEREF(__pyx_v_ba->arr);
 
-  /* "rpforest/rpforest_fast.pyx":252
+  /* "rpforest/rpforest_fast.pyx":288
  *         ba = BArray(byte_array, 0)
  * 
  *         self.max_size = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]
  */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "rpforest/rpforest_fast.pyx":254
+  /* "rpforest/rpforest_fast.pyx":290
  *         self.max_size = struct.unpack_from('@I',
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]             # <<<<<<<<<<<<<<
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',
  */
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_ba->offset); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_ba->offset); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_offset, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_offset, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":252
+  /* "rpforest/rpforest_fast.pyx":288
  *         ba = BArray(byte_array, 0)
  * 
  *         self.max_size = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":254
+  /* "rpforest/rpforest_fast.pyx":290
  *         self.max_size = struct.unpack_from('@I',
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]             # <<<<<<<<<<<<<<
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',
  */
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":252
+  /* "rpforest/rpforest_fast.pyx":288
  *         ba = BArray(byte_array, 0)
  * 
  *         self.max_size = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
@@ -4544,7 +4552,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
  */
   __pyx_v_self->max_size = __pyx_t_5;
 
-  /* "rpforest/rpforest_fast.pyx":255
+  /* "rpforest/rpforest_fast.pyx":291
  *                                            ba.arr,
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size             # <<<<<<<<<<<<<<
@@ -4553,27 +4561,27 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
  */
   __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_uint_size);
 
-  /* "rpforest/rpforest_fast.pyx":256
+  /* "rpforest/rpforest_fast.pyx":292
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_unpack_from); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_unpack_from); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":257
+  /* "rpforest/rpforest_fast.pyx":293
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',
  *                                       ba.arr,             # <<<<<<<<<<<<<<
  *                                       offset=ba.offset)[0]
  *         ba.offset += uint_size
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_kp_s_I);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_I);
@@ -4582,55 +4590,55 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_ba->arr);
   __Pyx_GIVEREF(__pyx_v_ba->arr);
 
-  /* "rpforest/rpforest_fast.pyx":256
+  /* "rpforest/rpforest_fast.pyx":292
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "rpforest/rpforest_fast.pyx":258
+  /* "rpforest/rpforest_fast.pyx":294
  *         self.dim = struct.unpack_from('@I',
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]             # <<<<<<<<<<<<<<
  *         ba.offset += uint_size
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_ba->offset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 258; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_ba->offset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_offset, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_offset, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":256
+  /* "rpforest/rpforest_fast.pyx":292
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":258
+  /* "rpforest/rpforest_fast.pyx":294
  *         self.dim = struct.unpack_from('@I',
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]             # <<<<<<<<<<<<<<
  *         ba.offset += uint_size
  * 
  */
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 258; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 258; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":256
+  /* "rpforest/rpforest_fast.pyx":292
  *                                            offset=ba.offset)[0]
  *         ba.offset += uint_size
  *         self.dim = struct.unpack_from('@I',             # <<<<<<<<<<<<<<
@@ -4639,7 +4647,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
  */
   __pyx_v_self->dim = __pyx_t_5;
 
-  /* "rpforest/rpforest_fast.pyx":259
+  /* "rpforest/rpforest_fast.pyx":295
  *                                       ba.arr,
  *                                       offset=ba.offset)[0]
  *         ba.offset += uint_size             # <<<<<<<<<<<<<<
@@ -4648,7 +4656,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
  */
   __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_uint_size);
 
-  /* "rpforest/rpforest_fast.pyx":262
+  /* "rpforest/rpforest_fast.pyx":298
  * 
  *         # Read tree
  *         self.root = read_node(ba, self.dim)             # <<<<<<<<<<<<<<
@@ -4657,12 +4665,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
  */
   __pyx_v_self->root = __pyx_f_8rpforest_13rpforest_fast_read_node(__pyx_v_ba, __pyx_v_self->dim);
 
-  /* "rpforest/rpforest_fast.pyx":246
+  /* "rpforest/rpforest_fast.pyx":279
  *         return ba
  * 
  *     def deserialize(self, byte_array):             # <<<<<<<<<<<<<<
- * 
- *         cdef Node* node
+ *         """
+ *         Read tree from a bytearray.
  */
 
   /* function exit code */
@@ -4682,16 +4690,17 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_13deserialize(struct _
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":264
+/* "rpforest/rpforest_fast.pyx":300
  *         self.root = read_node(ba, self.dim)
  * 
  *     def get_size(self):             # <<<<<<<<<<<<<<
- * 
- *         return get_size(self.root, self.dim)
+ *         """
+ *         Return the memory size of the tree, in bytes.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_16get_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_15get_size[] = "\n        Return the memory size of the tree, in bytes.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_16get_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -4712,26 +4721,26 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_15get_size(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_size", 0);
 
-  /* "rpforest/rpforest_fast.pyx":266
- *     def get_size(self):
+  /* "rpforest/rpforest_fast.pyx":305
+ *         """
  * 
  *         return get_size(self.root, self.dim)             # <<<<<<<<<<<<<<
  * 
  *     def clear(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_f_8rpforest_13rpforest_fast_get_size(__pyx_v_self->root, __pyx_v_self->dim)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_f_8rpforest_13rpforest_fast_get_size(__pyx_v_self->root, __pyx_v_self->dim)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":264
+  /* "rpforest/rpforest_fast.pyx":300
  *         self.root = read_node(ba, self.dim)
  * 
  *     def get_size(self):             # <<<<<<<<<<<<<<
- * 
- *         return get_size(self.root, self.dim)
+ *         """
+ *         Return the memory size of the tree, in bytes.
  */
 
   /* function exit code */
@@ -4745,16 +4754,17 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_15get_size(struct __py
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":268
+/* "rpforest/rpforest_fast.pyx":307
  *         return get_size(self.root, self.dim)
  * 
  *     def clear(self):             # <<<<<<<<<<<<<<
- * 
- *         clear(self.root)
+ *         """
+ *         Remove all indexed points but retain the tree structure.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_18clear(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8rpforest_13rpforest_fast_4Tree_17clear[] = "\n        Remove all indexed points but retain the tree structure.\n        ";
 static PyObject *__pyx_pw_8rpforest_13rpforest_fast_4Tree_18clear(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -4771,8 +4781,8 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_17clear(struct __pyx_o
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("clear", 0);
 
-  /* "rpforest/rpforest_fast.pyx":270
- *     def clear(self):
+  /* "rpforest/rpforest_fast.pyx":312
+ *         """
  * 
  *         clear(self.root)             # <<<<<<<<<<<<<<
  * 
@@ -4780,12 +4790,12 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_17clear(struct __pyx_o
  */
   __pyx_f_8rpforest_13rpforest_fast_clear(__pyx_v_self->root);
 
-  /* "rpforest/rpforest_fast.pyx":268
+  /* "rpforest/rpforest_fast.pyx":307
  *         return get_size(self.root, self.dim)
  * 
  *     def clear(self):             # <<<<<<<<<<<<<<
- * 
- *         clear(self.root)
+ *         """
+ *         Remove all indexed points but retain the tree structure.
  */
 
   /* function exit code */
@@ -4795,7 +4805,7 @@ static PyObject *__pyx_pf_8rpforest_13rpforest_fast_4Tree_17clear(struct __pyx_o
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":272
+/* "rpforest/rpforest_fast.pyx":314
  *         clear(self.root)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -4818,7 +4828,7 @@ static void __pyx_pf_8rpforest_13rpforest_fast_4Tree_19__dealloc__(struct __pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "rpforest/rpforest_fast.pyx":274
+  /* "rpforest/rpforest_fast.pyx":316
  *     def __dealloc__(self):
  * 
  *         del_node(self.root)             # <<<<<<<<<<<<<<
@@ -4827,7 +4837,7 @@ static void __pyx_pf_8rpforest_13rpforest_fast_4Tree_19__dealloc__(struct __pyx_
  */
   __pyx_f_8rpforest_13rpforest_fast_del_node(__pyx_v_self->root);
 
-  /* "rpforest/rpforest_fast.pyx":272
+  /* "rpforest/rpforest_fast.pyx":314
  *         clear(self.root)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -4839,12 +4849,12 @@ static void __pyx_pf_8rpforest_13rpforest_fast_4Tree_19__dealloc__(struct __pyx_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":277
+/* "rpforest/rpforest_fast.pyx":319
  * 
  * 
  * cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef int i
+ *     """
+ *     Recursively build a random projection tree starting at node.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, __Pyx_memviewslice __pyx_v_X, unsigned int __pyx_v_max_size, unsigned int __pyx_v_dim) {
@@ -4874,7 +4884,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("make_tree", 0);
 
-  /* "rpforest/rpforest_fast.pyx":287
+  /* "rpforest/rpforest_fast.pyx":332
  *     cdef Node *right
  * 
  *     if node.indices.size() <= max_size:             # <<<<<<<<<<<<<<
@@ -4884,7 +4894,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
   __pyx_t_1 = ((__pyx_v_node->indices->size() <= __pyx_v_max_size) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":288
+    /* "rpforest/rpforest_fast.pyx":333
  * 
  *     if node.indices.size() <= max_size:
  *         slim_node(node)             # <<<<<<<<<<<<<<
@@ -4893,50 +4903,50 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
  */
     __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node);
 
-    /* "rpforest/rpforest_fast.pyx":289
+    /* "rpforest/rpforest_fast.pyx":334
  *     if node.indices.size() <= max_size:
  *         slim_node(node)
  *         return             # <<<<<<<<<<<<<<
  * 
- *     left = new_node(dim)
+ *     # Allocate child nodes.
  */
     goto __pyx_L0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":291
- *         return
+  /* "rpforest/rpforest_fast.pyx":337
  * 
+ *     # Allocate child nodes.
  *     left = new_node(dim)             # <<<<<<<<<<<<<<
  *     right = new_node(dim)
  * 
  */
   __pyx_v_left = __pyx_f_8rpforest_13rpforest_fast_new_node(__pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":292
- * 
+  /* "rpforest/rpforest_fast.pyx":338
+ *     # Allocate child nodes.
  *     left = new_node(dim)
  *     right = new_node(dim)             # <<<<<<<<<<<<<<
  * 
- *     hyperplane = np.random.randn(dim)
+ *     # Generate the random hyperplane.
  */
   __pyx_v_right = __pyx_f_8rpforest_13rpforest_fast_new_node(__pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":294
- *     right = new_node(dim)
+  /* "rpforest/rpforest_fast.pyx":341
  * 
+ *     # Generate the random hyperplane.
  *     hyperplane = np.random.randn(dim)             # <<<<<<<<<<<<<<
  *     hyperplane /= np.linalg.norm(hyperplane)
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_randn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_randn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_dim); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_dim); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4949,46 +4959,46 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else {
-    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
     PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2);
-  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_hyperplane = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "rpforest/rpforest_fast.pyx":295
- * 
+  /* "rpforest/rpforest_fast.pyx":342
+ *     # Generate the random hyperplane.
  *     hyperplane = np.random.randn(dim)
  *     hyperplane /= np.linalg.norm(hyperplane)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(dim):
  */
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_hyperplane, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_hyperplane, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_linalg); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_linalg); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_norm); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_norm); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_hyperplane, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_hyperplane, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
@@ -5001,34 +5011,34 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
-    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
     PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyNumber_InPlaceDivide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyNumber_InPlaceDivide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6);
-  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_hyperplane, 1);
   __pyx_v_hyperplane = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "rpforest/rpforest_fast.pyx":297
+  /* "rpforest/rpforest_fast.pyx":344
  *     hyperplane /= np.linalg.norm(hyperplane)
  * 
  *     for i in range(dim):             # <<<<<<<<<<<<<<
@@ -5039,20 +5049,20 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "rpforest/rpforest_fast.pyx":298
+    /* "rpforest/rpforest_fast.pyx":345
  * 
  *     for i in range(dim):
  *         node.hyperplane[i] = <hyp>hyperplane[i]             # <<<<<<<<<<<<<<
  * 
- *     for i in range(node.indices.size()):
+ *     # Calculate the median cosine similarity
  */
     __pyx_t_11 = __pyx_v_i;
     (__pyx_v_node->hyperplane[__pyx_v_i]) = ((__pyx_t_8rpforest_13rpforest_fast_hyp)(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_hyperplane.data) + __pyx_t_11)) ))));
   }
 
-  /* "rpforest/rpforest_fast.pyx":300
- *         node.hyperplane[i] = <hyp>hyperplane[i]
- * 
+  /* "rpforest/rpforest_fast.pyx":349
+ *     # Calculate the median cosine similarity
+ *     # between the hyperplane and the points.
  *     for i in range(node.indices.size()):             # <<<<<<<<<<<<<<
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,
@@ -5061,8 +5071,8 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_12; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "rpforest/rpforest_fast.pyx":301
- * 
+    /* "rpforest/rpforest_fast.pyx":350
+ *     # between the hyperplane and the points.
  *     for i in range(node.indices.size()):
  *         idx = deref(node.indices)[i]             # <<<<<<<<<<<<<<
  *         dst = dot(node.hyperplane,
@@ -5070,7 +5080,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
  */
     __pyx_v_idx = ((*__pyx_v_node->indices)[__pyx_v_i]);
 
-    /* "rpforest/rpforest_fast.pyx":303
+    /* "rpforest/rpforest_fast.pyx":352
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,
  *                   X[idx, :],             # <<<<<<<<<<<<<<
@@ -5088,7 +5098,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_make_tree(struct __pyx_t_8rpforest
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 303; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
         __pyx_t_7.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -5099,7 +5109,7 @@ __pyx_t_7.strides[0] = __pyx_v_X.strides[1];
 
 __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __pyx_t_7, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":302
+    /* "rpforest/rpforest_fast.pyx":351
  *     for i in range(node.indices.size()):
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,             # <<<<<<<<<<<<<<
@@ -5108,7 +5118,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
     __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
 
-    /* "rpforest/rpforest_fast.pyx":305
+    /* "rpforest/rpforest_fast.pyx":354
  *                   X[idx, :],
  *                   dim)
  *         dist.push_back(dst)             # <<<<<<<<<<<<<<
@@ -5119,11 +5129,11 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
       __pyx_v_dist.push_back(__pyx_v_dst);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 354; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
 
-  /* "rpforest/rpforest_fast.pyx":307
+  /* "rpforest/rpforest_fast.pyx":356
  *         dist.push_back(dst)
  * 
  *     sort(dist.begin(), dist.end())             # <<<<<<<<<<<<<<
@@ -5132,18 +5142,18 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
   std::sort<std::vector<double> ::iterator>(__pyx_v_dist.begin(), __pyx_v_dist.end());
 
-  /* "rpforest/rpforest_fast.pyx":308
+  /* "rpforest/rpforest_fast.pyx":357
  * 
  *     sort(dist.begin(), dist.end())
  *     node.median = dist[dist.size() / 2]             # <<<<<<<<<<<<<<
  * 
- *     for i in range(node.indices.size()):
+ *     # Split points at median similarity.
  */
   __pyx_v_node->median = (__pyx_v_dist[(__pyx_v_dist.size() / 2)]);
 
-  /* "rpforest/rpforest_fast.pyx":310
- *     node.median = dist[dist.size() / 2]
+  /* "rpforest/rpforest_fast.pyx":360
  * 
+ *     # Split points at median similarity.
  *     for i in range(node.indices.size()):             # <<<<<<<<<<<<<<
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,
@@ -5152,8 +5162,8 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_12; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "rpforest/rpforest_fast.pyx":311
- * 
+    /* "rpforest/rpforest_fast.pyx":361
+ *     # Split points at median similarity.
  *     for i in range(node.indices.size()):
  *         idx = deref(node.indices)[i]             # <<<<<<<<<<<<<<
  *         dst = dot(node.hyperplane,
@@ -5161,7 +5171,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
     __pyx_v_idx = ((*__pyx_v_node->indices)[__pyx_v_i]);
 
-    /* "rpforest/rpforest_fast.pyx":313
+    /* "rpforest/rpforest_fast.pyx":363
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,
  *                   X[idx, :],             # <<<<<<<<<<<<<<
@@ -5179,7 +5189,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
         __pyx_t_7.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -5190,7 +5200,7 @@ __pyx_t_7.strides[0] = __pyx_v_X.strides[1];
 
 __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __pyx_t_7, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":312
+    /* "rpforest/rpforest_fast.pyx":362
  *     for i in range(node.indices.size()):
  *         idx = deref(node.indices)[i]
  *         dst = dot(node.hyperplane,             # <<<<<<<<<<<<<<
@@ -5199,7 +5209,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
     __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
 
-    /* "rpforest/rpforest_fast.pyx":315
+    /* "rpforest/rpforest_fast.pyx":365
  *                   X[idx, :],
  *                   dim)
  *         if dst <= node.median:             # <<<<<<<<<<<<<<
@@ -5209,7 +5219,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
     __pyx_t_1 = ((__pyx_v_dst <= __pyx_v_node->median) != 0);
     if (__pyx_t_1) {
 
-      /* "rpforest/rpforest_fast.pyx":316
+      /* "rpforest/rpforest_fast.pyx":366
  *                   dim)
  *         if dst <= node.median:
  *             left.indices.push_back(idx)             # <<<<<<<<<<<<<<
@@ -5220,35 +5230,35 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
         __pyx_v_left->indices->push_back(__pyx_v_idx);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 316; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 366; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       goto __pyx_L10;
     }
     /*else*/ {
 
-      /* "rpforest/rpforest_fast.pyx":318
+      /* "rpforest/rpforest_fast.pyx":368
  *             left.indices.push_back(idx)
  *         else:
  *             right.indices.push_back(idx)             # <<<<<<<<<<<<<<
  * 
- *     if left.indices.size() == 0 or right.indices.size() == 0:
+ *     # Bail out on a failed split.
  */
       try {
         __pyx_v_right->indices->push_back(__pyx_v_idx);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 368; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
     }
     __pyx_L10:;
   }
 
-  /* "rpforest/rpforest_fast.pyx":320
- *             right.indices.push_back(idx)
+  /* "rpforest/rpforest_fast.pyx":371
  * 
+ *     # Bail out on a failed split.
  *     if left.indices.size() == 0 or right.indices.size() == 0:             # <<<<<<<<<<<<<<
- *         # Failed split
  *         slim_node(node)
+ *         del_node(left)
  */
   __pyx_t_13 = ((__pyx_v_left->indices->size() == 0) != 0);
   if (!__pyx_t_13) {
@@ -5261,17 +5271,17 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
   __pyx_L12_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":322
+    /* "rpforest/rpforest_fast.pyx":372
+ *     # Bail out on a failed split.
  *     if left.indices.size() == 0 or right.indices.size() == 0:
- *         # Failed split
  *         slim_node(node)             # <<<<<<<<<<<<<<
  *         del_node(left)
  *         del_node(right)
  */
     __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node);
 
-    /* "rpforest/rpforest_fast.pyx":323
- *         # Failed split
+    /* "rpforest/rpforest_fast.pyx":373
+ *     if left.indices.size() == 0 or right.indices.size() == 0:
  *         slim_node(node)
  *         del_node(left)             # <<<<<<<<<<<<<<
  *         del_node(right)
@@ -5279,7 +5289,7 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
     __pyx_f_8rpforest_13rpforest_fast_del_node(__pyx_v_left);
 
-    /* "rpforest/rpforest_fast.pyx":324
+    /* "rpforest/rpforest_fast.pyx":374
  *         slim_node(node)
  *         del_node(left)
  *         del_node(right)             # <<<<<<<<<<<<<<
@@ -5288,45 +5298,45 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
     __pyx_f_8rpforest_13rpforest_fast_del_node(__pyx_v_right);
 
-    /* "rpforest/rpforest_fast.pyx":325
+    /* "rpforest/rpforest_fast.pyx":375
  *         del_node(left)
  *         del_node(right)
  *         return             # <<<<<<<<<<<<<<
  * 
- *     add_descendants(node, left, right)
+ *     # Add point indices to children.
  */
     goto __pyx_L0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":327
- *         return
+  /* "rpforest/rpforest_fast.pyx":378
  * 
+ *     # Add point indices to children.
  *     add_descendants(node, left, right)             # <<<<<<<<<<<<<<
  *     slim_node(node)
  * 
  */
   __pyx_f_8rpforest_13rpforest_fast_add_descendants(__pyx_v_node, __pyx_v_left, __pyx_v_right);
 
-  /* "rpforest/rpforest_fast.pyx":328
- * 
+  /* "rpforest/rpforest_fast.pyx":379
+ *     # Add point indices to children.
  *     add_descendants(node, left, right)
  *     slim_node(node)             # <<<<<<<<<<<<<<
  * 
- *     make_tree(left, X, max_size, dim)
+ *     # Recursively split child subtrees.
  */
   __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node);
 
-  /* "rpforest/rpforest_fast.pyx":330
- *     slim_node(node)
+  /* "rpforest/rpforest_fast.pyx":382
  * 
+ *     # Recursively split child subtrees.
  *     make_tree(left, X, max_size, dim)             # <<<<<<<<<<<<<<
  *     make_tree(right, X, max_size, dim)
  * 
  */
   __pyx_f_8rpforest_13rpforest_fast_make_tree(__pyx_v_left, __pyx_v_X, __pyx_v_max_size, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":331
- * 
+  /* "rpforest/rpforest_fast.pyx":383
+ *     # Recursively split child subtrees.
  *     make_tree(left, X, max_size, dim)
  *     make_tree(right, X, max_size, dim)             # <<<<<<<<<<<<<<
  * 
@@ -5334,12 +5344,12 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
  */
   __pyx_f_8rpforest_13rpforest_fast_make_tree(__pyx_v_right, __pyx_v_X, __pyx_v_max_size, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":277
+  /* "rpforest/rpforest_fast.pyx":319
  * 
  * 
  * cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef int i
+ *     """
+ *     Recursively build a random projection tree starting at node.
  */
 
   /* function exit code */
@@ -5358,12 +5368,12 @@ __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":334
+/* "rpforest/rpforest_fast.pyx":386
  * 
  * 
  * cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str code):             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants == 0:
+ *     """
+ *     Retrieve all leaf nodes.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, std::vector<struct __pyx_t_8rpforest_13rpforest_fast_Node *>  *__pyx_v_leaves, PyObject *__pyx_v_leaf_codes, PyObject *__pyx_v_code) {
@@ -5376,8 +5386,8 @@ static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_leaf_nodes", 0);
 
-  /* "rpforest/rpforest_fast.pyx":336
- * cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str code):
+  /* "rpforest/rpforest_fast.pyx":391
+ *     """
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
  *         leaves.push_back(node)
@@ -5386,7 +5396,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpf
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":337
+    /* "rpforest/rpforest_fast.pyx":392
  * 
  *     if node.n_descendants == 0:
  *         leaves.push_back(node)             # <<<<<<<<<<<<<<
@@ -5397,10 +5407,10 @@ static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpf
       __pyx_v_leaves->push_back(__pyx_v_node);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "rpforest/rpforest_fast.pyx":338
+    /* "rpforest/rpforest_fast.pyx":393
  *     if node.n_descendants == 0:
  *         leaves.push_back(node)
  *         leaf_codes.append(code)             # <<<<<<<<<<<<<<
@@ -5409,45 +5419,45 @@ static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpf
  */
     if (unlikely(__pyx_v_leaf_codes == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_leaf_codes, __pyx_v_code); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_leaf_codes, __pyx_v_code); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     goto __pyx_L3;
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":340
+    /* "rpforest/rpforest_fast.pyx":395
  *         leaf_codes.append(code)
  *     else:
  *         get_leaf_nodes(node.left, leaves, leaf_codes, code + '0')             # <<<<<<<<<<<<<<
  *         get_leaf_nodes(node.right, leaves, leaf_codes, code + '1')
  * 
  */
-    __pyx_t_3 = PyNumber_Add(__pyx_v_code, __pyx_kp_s_0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyNumber_Add(__pyx_v_code, __pyx_kp_s_0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(__pyx_v_node->left, __pyx_v_leaves, __pyx_v_leaf_codes, ((PyObject*)__pyx_t_3));
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":341
+    /* "rpforest/rpforest_fast.pyx":396
  *     else:
  *         get_leaf_nodes(node.left, leaves, leaf_codes, code + '0')
  *         get_leaf_nodes(node.right, leaves, leaf_codes, code + '1')             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = PyNumber_Add(__pyx_v_code, __pyx_kp_s_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyNumber_Add(__pyx_v_code, __pyx_kp_s_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 396; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(__pyx_v_node->right, __pyx_v_leaves, __pyx_v_leaf_codes, ((PyObject*)__pyx_t_3));
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":334
+  /* "rpforest/rpforest_fast.pyx":386
  * 
  * 
  * cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str code):             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants == 0:
+ *     """
+ *     Retrieve all leaf nodes.
  */
 
   /* function exit code */
@@ -5459,12 +5469,12 @@ static void __pyx_f_8rpforest_13rpforest_fast_get_leaf_nodes(struct __pyx_t_8rpf
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":344
+/* "rpforest/rpforest_fast.pyx":399
  * 
  * 
  * cdef void slim_all(Node *node):             # <<<<<<<<<<<<<<
- * 
- *     slim_node(node)
+ *     """
+ *     Slim all nodes.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node) {
@@ -5472,8 +5482,8 @@ static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("slim_all", 0);
 
-  /* "rpforest/rpforest_fast.pyx":346
- * cdef void slim_all(Node *node):
+  /* "rpforest/rpforest_fast.pyx":404
+ *     """
  * 
  *     slim_node(node)             # <<<<<<<<<<<<<<
  * 
@@ -5481,7 +5491,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_
  */
   __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node);
 
-  /* "rpforest/rpforest_fast.pyx":348
+  /* "rpforest/rpforest_fast.pyx":406
  *     slim_node(node)
  * 
  *     if node.n_descendants != 0:             # <<<<<<<<<<<<<<
@@ -5491,7 +5501,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_
   __pyx_t_1 = ((__pyx_v_node->n_descendants != 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":349
+    /* "rpforest/rpforest_fast.pyx":407
  * 
  *     if node.n_descendants != 0:
  *         slim_node(node.left)             # <<<<<<<<<<<<<<
@@ -5500,7 +5510,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_
  */
     __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node->left);
 
-    /* "rpforest/rpforest_fast.pyx":350
+    /* "rpforest/rpforest_fast.pyx":408
  *     if node.n_descendants != 0:
  *         slim_node(node.left)
  *         slim_node(node.right)             # <<<<<<<<<<<<<<
@@ -5512,24 +5522,24 @@ static void __pyx_f_8rpforest_13rpforest_fast_slim_all(struct __pyx_t_8rpforest_
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":344
+  /* "rpforest/rpforest_fast.pyx":399
  * 
  * 
  * cdef void slim_all(Node *node):             # <<<<<<<<<<<<<<
- * 
- *     slim_node(node)
+ *     """
+ *     Slim all nodes.
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":365
+/* "rpforest/rpforest_fast.pyx":423
  * 
  * 
  * cdef inline Node* new_node(unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef Node *node = <Node *>malloc(sizeof(Node))
+ *     """
+ *     Allocate a new node.
  */
 
 static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpforest_fast_new_node(unsigned int __pyx_v_dim) {
@@ -5543,8 +5553,8 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("new_node", 0);
 
-  /* "rpforest/rpforest_fast.pyx":367
- * cdef inline Node* new_node(unsigned int dim):
+  /* "rpforest/rpforest_fast.pyx":428
+ *     """
  * 
  *     cdef Node *node = <Node *>malloc(sizeof(Node))             # <<<<<<<<<<<<<<
  * 
@@ -5552,7 +5562,7 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
  */
   __pyx_v_node = ((struct __pyx_t_8rpforest_13rpforest_fast_Node *)malloc((sizeof(struct __pyx_t_8rpforest_13rpforest_fast_Node))));
 
-  /* "rpforest/rpforest_fast.pyx":369
+  /* "rpforest/rpforest_fast.pyx":430
  *     cdef Node *node = <Node *>malloc(sizeof(Node))
  * 
  *     if node == NULL:             # <<<<<<<<<<<<<<
@@ -5562,17 +5572,17 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
   __pyx_t_1 = ((__pyx_v_node == NULL) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":370
+    /* "rpforest/rpforest_fast.pyx":431
  * 
  *     if node == NULL:
  *         raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  *     node.n_descendants = 0
  */
-    PyErr_NoMemory(); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 370; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyErr_NoMemory(); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 431; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "rpforest/rpforest_fast.pyx":372
+  /* "rpforest/rpforest_fast.pyx":433
  *         raise MemoryError()
  * 
  *     node.n_descendants = 0             # <<<<<<<<<<<<<<
@@ -5581,7 +5591,7 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
  */
   __pyx_v_node->n_descendants = 0;
 
-  /* "rpforest/rpforest_fast.pyx":373
+  /* "rpforest/rpforest_fast.pyx":434
  * 
  *     node.n_descendants = 0
  *     node.indices = new vector[int]()             # <<<<<<<<<<<<<<
@@ -5592,11 +5602,11 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
     __pyx_t_2 = new std::vector<int> ();
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 373; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 434; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_node->indices = __pyx_t_2;
 
-  /* "rpforest/rpforest_fast.pyx":374
+  /* "rpforest/rpforest_fast.pyx":435
  *     node.n_descendants = 0
  *     node.indices = new vector[int]()
  *     node.hyperplane = <hyp *>malloc(dim * sizeof(hyp))             # <<<<<<<<<<<<<<
@@ -5605,7 +5615,7 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
  */
   __pyx_v_node->hyperplane = ((__pyx_t_8rpforest_13rpforest_fast_hyp *)malloc((__pyx_v_dim * (sizeof(__pyx_t_8rpforest_13rpforest_fast_hyp)))));
 
-  /* "rpforest/rpforest_fast.pyx":376
+  /* "rpforest/rpforest_fast.pyx":437
  *     node.hyperplane = <hyp *>malloc(dim * sizeof(hyp))
  * 
  *     if node.hyperplane == NULL:             # <<<<<<<<<<<<<<
@@ -5615,17 +5625,17 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
   __pyx_t_1 = ((__pyx_v_node->hyperplane == NULL) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":377
+    /* "rpforest/rpforest_fast.pyx":438
  * 
  *     if node.hyperplane == NULL:
  *         raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  *     return node
  */
-    PyErr_NoMemory(); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyErr_NoMemory(); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "rpforest/rpforest_fast.pyx":379
+  /* "rpforest/rpforest_fast.pyx":440
  *         raise MemoryError()
  * 
  *     return node             # <<<<<<<<<<<<<<
@@ -5635,12 +5645,12 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
   __pyx_r = __pyx_v_node;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":365
+  /* "rpforest/rpforest_fast.pyx":423
  * 
  * 
  * cdef inline Node* new_node(unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef Node *node = <Node *>malloc(sizeof(Node))
+ *     """
+ *     Allocate a new node.
  */
 
   /* function exit code */
@@ -5652,19 +5662,19 @@ static CYTHON_INLINE struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpf
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":382
+/* "rpforest/rpforest_fast.pyx":443
  * 
  * 
  * cdef inline void slim_node(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants > 0:
+ *     """
+ *     Deallocate either the hyperplane or the indices vector,
  */
 
 static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node) {
   int __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":384
- * cdef inline void slim_node(Node *node) nogil:
+  /* "rpforest/rpforest_fast.pyx":449
+ *     """
  * 
  *     if node.n_descendants > 0:             # <<<<<<<<<<<<<<
  *         if node.indices != NULL:
@@ -5673,7 +5683,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
   __pyx_t_1 = ((__pyx_v_node->n_descendants > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":385
+    /* "rpforest/rpforest_fast.pyx":450
  * 
  *     if node.n_descendants > 0:
  *         if node.indices != NULL:             # <<<<<<<<<<<<<<
@@ -5683,7 +5693,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
     __pyx_t_1 = ((__pyx_v_node->indices != NULL) != 0);
     if (__pyx_t_1) {
 
-      /* "rpforest/rpforest_fast.pyx":386
+      /* "rpforest/rpforest_fast.pyx":451
  *     if node.n_descendants > 0:
  *         if node.indices != NULL:
  *             del node.indices             # <<<<<<<<<<<<<<
@@ -5692,7 +5702,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
  */
       delete __pyx_v_node->indices;
 
-      /* "rpforest/rpforest_fast.pyx":387
+      /* "rpforest/rpforest_fast.pyx":452
  *         if node.indices != NULL:
  *             del node.indices
  *             node.indices = NULL             # <<<<<<<<<<<<<<
@@ -5707,7 +5717,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":389
+    /* "rpforest/rpforest_fast.pyx":454
  *             node.indices = NULL
  *     else:
  *         node.indices.shrink_to_fit()             # <<<<<<<<<<<<<<
@@ -5716,7 +5726,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
  */
     __pyx_v_node->indices->shrink_to_fit();
 
-    /* "rpforest/rpforest_fast.pyx":390
+    /* "rpforest/rpforest_fast.pyx":455
  *     else:
  *         node.indices.shrink_to_fit()
  *         if node.hyperplane != NULL:             # <<<<<<<<<<<<<<
@@ -5726,7 +5736,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
     __pyx_t_1 = ((__pyx_v_node->hyperplane != NULL) != 0);
     if (__pyx_t_1) {
 
-      /* "rpforest/rpforest_fast.pyx":391
+      /* "rpforest/rpforest_fast.pyx":456
  *         node.indices.shrink_to_fit()
  *         if node.hyperplane != NULL:
  *             free(node.hyperplane)             # <<<<<<<<<<<<<<
@@ -5735,7 +5745,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
  */
       free(__pyx_v_node->hyperplane);
 
-      /* "rpforest/rpforest_fast.pyx":392
+      /* "rpforest/rpforest_fast.pyx":457
  *         if node.hyperplane != NULL:
  *             free(node.hyperplane)
  *             node.hyperplane = NULL             # <<<<<<<<<<<<<<
@@ -5749,18 +5759,18 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":382
+  /* "rpforest/rpforest_fast.pyx":443
  * 
  * 
  * cdef inline void slim_node(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants > 0:
+ *     """
+ *     Deallocate either the hyperplane or the indices vector,
  */
 
   /* function exit code */
 }
 
-/* "rpforest/rpforest_fast.pyx":395
+/* "rpforest/rpforest_fast.pyx":460
  * 
  * 
  * cdef inline void add_descendants(Node *node, Node *left, Node *right) nogil:             # <<<<<<<<<<<<<<
@@ -5770,7 +5780,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_slim_node(struct __p
 
 static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_add_descendants(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_left, struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_right) {
 
-  /* "rpforest/rpforest_fast.pyx":397
+  /* "rpforest/rpforest_fast.pyx":462
  * cdef inline void add_descendants(Node *node, Node *left, Node *right) nogil:
  * 
  *     node.n_descendants = 2             # <<<<<<<<<<<<<<
@@ -5779,7 +5789,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_add_descendants(stru
  */
   __pyx_v_node->n_descendants = 2;
 
-  /* "rpforest/rpforest_fast.pyx":398
+  /* "rpforest/rpforest_fast.pyx":463
  * 
  *     node.n_descendants = 2
  *     node.left = left             # <<<<<<<<<<<<<<
@@ -5788,7 +5798,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_add_descendants(stru
  */
   __pyx_v_node->left = __pyx_v_left;
 
-  /* "rpforest/rpforest_fast.pyx":399
+  /* "rpforest/rpforest_fast.pyx":464
  *     node.n_descendants = 2
  *     node.left = left
  *     node.right = right             # <<<<<<<<<<<<<<
@@ -5797,7 +5807,7 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_add_descendants(stru
  */
   __pyx_v_node->right = __pyx_v_right;
 
-  /* "rpforest/rpforest_fast.pyx":395
+  /* "rpforest/rpforest_fast.pyx":460
  * 
  * 
  * cdef inline void add_descendants(Node *node, Node *left, Node *right) nogil:             # <<<<<<<<<<<<<<
@@ -5808,19 +5818,19 @@ static CYTHON_INLINE void __pyx_f_8rpforest_13rpforest_fast_add_descendants(stru
   /* function exit code */
 }
 
-/* "rpforest/rpforest_fast.pyx":402
+/* "rpforest/rpforest_fast.pyx":467
  * 
  * 
  * cdef void del_node(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants > 0:
+ *     """
+ *     Free a node.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node) {
   int __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":404
- * cdef void del_node(Node *node) nogil:
+  /* "rpforest/rpforest_fast.pyx":472
+ *     """
  * 
  *     if node.n_descendants > 0:             # <<<<<<<<<<<<<<
  *         del_node(node.left)
@@ -5829,7 +5839,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
   __pyx_t_1 = ((__pyx_v_node->n_descendants > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":405
+    /* "rpforest/rpforest_fast.pyx":473
  * 
  *     if node.n_descendants > 0:
  *         del_node(node.left)             # <<<<<<<<<<<<<<
@@ -5838,7 +5848,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
  */
     __pyx_f_8rpforest_13rpforest_fast_del_node(__pyx_v_node->left);
 
-    /* "rpforest/rpforest_fast.pyx":406
+    /* "rpforest/rpforest_fast.pyx":474
  *     if node.n_descendants > 0:
  *         del_node(node.left)
  *         del_node(node.right)             # <<<<<<<<<<<<<<
@@ -5847,7 +5857,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
  */
     __pyx_f_8rpforest_13rpforest_fast_del_node(__pyx_v_node->right);
 
-    /* "rpforest/rpforest_fast.pyx":407
+    /* "rpforest/rpforest_fast.pyx":475
  *         del_node(node.left)
  *         del_node(node.right)
  *         free(node.hyperplane)             # <<<<<<<<<<<<<<
@@ -5859,7 +5869,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":409
+    /* "rpforest/rpforest_fast.pyx":477
  *         free(node.hyperplane)
  *     else:
  *         del node.indices             # <<<<<<<<<<<<<<
@@ -5870,7 +5880,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":411
+  /* "rpforest/rpforest_fast.pyx":479
  *         del node.indices
  * 
  *     free(node)             # <<<<<<<<<<<<<<
@@ -5879,30 +5889,30 @@ static void __pyx_f_8rpforest_13rpforest_fast_del_node(struct __pyx_t_8rpforest_
  */
   free(__pyx_v_node);
 
-  /* "rpforest/rpforest_fast.pyx":402
+  /* "rpforest/rpforest_fast.pyx":467
  * 
  * 
  * cdef void del_node(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants > 0:
+ *     """
+ *     Free a node.
  */
 
   /* function exit code */
 }
 
-/* "rpforest/rpforest_fast.pyx":414
+/* "rpforest/rpforest_fast.pyx":482
  * 
  * 
  * cdef void clear(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants == 0:
+ *     """
+ *     Recursively remove all indexed points from node and
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node) {
   int __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":416
- * cdef void clear(Node *node) nogil:
+  /* "rpforest/rpforest_fast.pyx":488
+ *     """
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
  *         node.indices.clear()
@@ -5911,7 +5921,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13r
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":417
+    /* "rpforest/rpforest_fast.pyx":489
  * 
  *     if node.n_descendants == 0:
  *         node.indices.clear()             # <<<<<<<<<<<<<<
@@ -5920,7 +5930,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13r
  */
     __pyx_v_node->indices->clear();
 
-    /* "rpforest/rpforest_fast.pyx":418
+    /* "rpforest/rpforest_fast.pyx":490
  *     if node.n_descendants == 0:
  *         node.indices.clear()
  *         node.indices.shrink_to_fit()             # <<<<<<<<<<<<<<
@@ -5932,7 +5942,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13r
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":420
+    /* "rpforest/rpforest_fast.pyx":492
  *         node.indices.shrink_to_fit()
  *     else:
  *         clear(node.left)             # <<<<<<<<<<<<<<
@@ -5941,7 +5951,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13r
  */
     __pyx_f_8rpforest_13rpforest_fast_clear(__pyx_v_node->left);
 
-    /* "rpforest/rpforest_fast.pyx":421
+    /* "rpforest/rpforest_fast.pyx":493
  *     else:
  *         clear(node.left)
  *         clear(node.right)             # <<<<<<<<<<<<<<
@@ -5952,23 +5962,23 @@ static void __pyx_f_8rpforest_13rpforest_fast_clear(struct __pyx_t_8rpforest_13r
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":414
+  /* "rpforest/rpforest_fast.pyx":482
  * 
  * 
  * cdef void clear(Node *node) nogil:             # <<<<<<<<<<<<<<
- * 
- *     if node.n_descendants == 0:
+ *     """
+ *     Recursively remove all indexed points from node and
  */
 
   /* function exit code */
 }
 
-/* "rpforest/rpforest_fast.pyx":424
+/* "rpforest/rpforest_fast.pyx":496
  * 
  * 
  * cdef long get_size(Node *node, unsigned int dim) nogil:             # <<<<<<<<<<<<<<
- * 
- *     cdef long size = 0
+ *     """
+ *     Recursively get the size (in bytes) of node and
  */
 
 static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, unsigned int __pyx_v_dim) {
@@ -5976,8 +5986,8 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   long __pyx_r;
   int __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":426
- * cdef long get_size(Node *node, unsigned int dim) nogil:
+  /* "rpforest/rpforest_fast.pyx":502
+ *     """
  * 
  *     cdef long size = 0             # <<<<<<<<<<<<<<
  * 
@@ -5985,7 +5995,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
  */
   __pyx_v_size = 0;
 
-  /* "rpforest/rpforest_fast.pyx":428
+  /* "rpforest/rpforest_fast.pyx":504
  *     cdef long size = 0
  * 
  *     size += sizeof(node)             # <<<<<<<<<<<<<<
@@ -5994,7 +6004,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
  */
   __pyx_v_size = (__pyx_v_size + (sizeof(__pyx_v_node)));
 
-  /* "rpforest/rpforest_fast.pyx":430
+  /* "rpforest/rpforest_fast.pyx":506
  *     size += sizeof(node)
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
@@ -6004,7 +6014,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":431
+    /* "rpforest/rpforest_fast.pyx":507
  * 
  *     if node.n_descendants == 0:
  *         size += sizeof(vector[int]) + sizeof(int) * node.indices.size()             # <<<<<<<<<<<<<<
@@ -6016,7 +6026,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":433
+    /* "rpforest/rpforest_fast.pyx":509
  *         size += sizeof(vector[int]) + sizeof(int) * node.indices.size()
  *     else:
  *         size += sizeof(node)             # <<<<<<<<<<<<<<
@@ -6025,7 +6035,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
  */
     __pyx_v_size = (__pyx_v_size + (sizeof(__pyx_v_node)));
 
-    /* "rpforest/rpforest_fast.pyx":434
+    /* "rpforest/rpforest_fast.pyx":510
  *     else:
  *         size += sizeof(node)
  *         size += dim * sizeof(hyp)             # <<<<<<<<<<<<<<
@@ -6034,7 +6044,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
  */
     __pyx_v_size = (__pyx_v_size + (__pyx_v_dim * (sizeof(__pyx_t_8rpforest_13rpforest_fast_hyp))));
 
-    /* "rpforest/rpforest_fast.pyx":435
+    /* "rpforest/rpforest_fast.pyx":511
  *         size += sizeof(node)
  *         size += dim * sizeof(hyp)
  *         size += get_size(node.left, dim)             # <<<<<<<<<<<<<<
@@ -6043,7 +6053,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
  */
     __pyx_v_size = (__pyx_v_size + __pyx_f_8rpforest_13rpforest_fast_get_size(__pyx_v_node->left, __pyx_v_dim));
 
-    /* "rpforest/rpforest_fast.pyx":436
+    /* "rpforest/rpforest_fast.pyx":512
  *         size += dim * sizeof(hyp)
  *         size += get_size(node.left, dim)
  *         size += get_size(node.right, dim)             # <<<<<<<<<<<<<<
@@ -6054,7 +6064,7 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":438
+  /* "rpforest/rpforest_fast.pyx":514
  *         size += get_size(node.right, dim)
  * 
  *     return size             # <<<<<<<<<<<<<<
@@ -6064,12 +6074,12 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   __pyx_r = __pyx_v_size;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":424
+  /* "rpforest/rpforest_fast.pyx":496
  * 
  * 
  * cdef long get_size(Node *node, unsigned int dim) nogil:             # <<<<<<<<<<<<<<
- * 
- *     cdef long size = 0
+ *     """
+ *     Recursively get the size (in bytes) of node and
  */
 
   /* function exit code */
@@ -6077,12 +6087,12 @@ static long __pyx_f_8rpforest_13rpforest_fast_get_size(struct __pyx_t_8rpforest_
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":441
+/* "rpforest/rpforest_fast.pyx":517
  * 
  * 
  * cdef Node* query(Node *node, double[::1] x, unsigned int dim) nogil:             # <<<<<<<<<<<<<<
- * 
- *     cdef double dst
+ *     """
+ *     Recursively query the node and its children.
  */
 
 static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpforest_fast_query(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, __Pyx_memviewslice __pyx_v_x, unsigned int __pyx_v_dim) {
@@ -6090,7 +6100,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_r;
   int __pyx_t_1;
 
-  /* "rpforest/rpforest_fast.pyx":445
+  /* "rpforest/rpforest_fast.pyx":524
  *     cdef double dst
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
@@ -6100,7 +6110,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":446
+    /* "rpforest/rpforest_fast.pyx":525
  * 
  *     if node.n_descendants == 0:
  *         return node             # <<<<<<<<<<<<<<
@@ -6111,7 +6121,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
     goto __pyx_L0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":448
+  /* "rpforest/rpforest_fast.pyx":527
  *         return node
  * 
  *     dst = dot(node.hyperplane,             # <<<<<<<<<<<<<<
@@ -6120,7 +6130,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __pyx_v_x, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":452
+  /* "rpforest/rpforest_fast.pyx":531
  *               dim)
  * 
  *     if dst <= node.median:             # <<<<<<<<<<<<<<
@@ -6130,7 +6140,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   __pyx_t_1 = ((__pyx_v_dst <= __pyx_v_node->median) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":453
+    /* "rpforest/rpforest_fast.pyx":532
  * 
  *     if dst <= node.median:
  *         return query(node.left, x, dim)             # <<<<<<<<<<<<<<
@@ -6142,7 +6152,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":455
+    /* "rpforest/rpforest_fast.pyx":534
  *         return query(node.left, x, dim)
  *     else:
  *         return query(node.right, x, dim)             # <<<<<<<<<<<<<<
@@ -6153,12 +6163,12 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
     goto __pyx_L0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":441
+  /* "rpforest/rpforest_fast.pyx":517
  * 
  * 
  * cdef Node* query(Node *node, double[::1] x, unsigned int dim) nogil:             # <<<<<<<<<<<<<<
- * 
- *     cdef double dst
+ *     """
+ *     Recursively query the node and its children.
  */
 
   /* function exit code */
@@ -6166,12 +6176,12 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   return __pyx_r;
 }
 
-/* "rpforest/rpforest_fast.pyx":458
+/* "rpforest/rpforest_fast.pyx":537
  * 
  * 
  * cdef void encode(Node *node, double[::1] x, list code, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef double dst
+ *     """
+ *     Recursively encode x.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, __Pyx_memviewslice __pyx_v_x, PyObject *__pyx_v_code, unsigned int __pyx_v_dim) {
@@ -6184,7 +6194,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("encode", 0);
 
-  /* "rpforest/rpforest_fast.pyx":462
+  /* "rpforest/rpforest_fast.pyx":544
  *     cdef double dst
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
@@ -6194,7 +6204,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":463
+    /* "rpforest/rpforest_fast.pyx":545
  * 
  *     if node.n_descendants == 0:
  *         return             # <<<<<<<<<<<<<<
@@ -6204,7 +6214,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
     goto __pyx_L0;
   }
 
-  /* "rpforest/rpforest_fast.pyx":465
+  /* "rpforest/rpforest_fast.pyx":547
  *         return
  * 
  *     dst = dot(node.hyperplane,             # <<<<<<<<<<<<<<
@@ -6213,7 +6223,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
  */
   __pyx_v_dst = __pyx_f_8rpforest_13rpforest_fast_dot(__pyx_v_node->hyperplane, __pyx_v_x, __pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":469
+  /* "rpforest/rpforest_fast.pyx":551
  *               dim)
  * 
  *     if dst <= node.median:             # <<<<<<<<<<<<<<
@@ -6223,7 +6233,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   __pyx_t_1 = ((__pyx_v_dst <= __pyx_v_node->median) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":470
+    /* "rpforest/rpforest_fast.pyx":552
  * 
  *     if dst <= node.median:
  *         code.append('0')             # <<<<<<<<<<<<<<
@@ -6232,11 +6242,11 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
  */
     if (unlikely(__pyx_v_code == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 470; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 552; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_code, __pyx_kp_s_0); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 470; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_code, __pyx_kp_s_0); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 552; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "rpforest/rpforest_fast.pyx":471
+    /* "rpforest/rpforest_fast.pyx":553
  *     if dst <= node.median:
  *         code.append('0')
  *         encode(node.left, x, code, dim)             # <<<<<<<<<<<<<<
@@ -6248,7 +6258,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":473
+    /* "rpforest/rpforest_fast.pyx":555
  *         encode(node.left, x, code, dim)
  *     else:
  *         code.append('1')             # <<<<<<<<<<<<<<
@@ -6257,11 +6267,11 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
  */
     if (unlikely(__pyx_v_code == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 555; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_code, __pyx_kp_s_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyList_Append(__pyx_v_code, __pyx_kp_s_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 555; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "rpforest/rpforest_fast.pyx":474
+    /* "rpforest/rpforest_fast.pyx":556
  *     else:
  *         code.append('1')
  *         encode(node.right, x, code, dim)             # <<<<<<<<<<<<<<
@@ -6272,12 +6282,12 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   }
   __pyx_L4:;
 
-  /* "rpforest/rpforest_fast.pyx":458
+  /* "rpforest/rpforest_fast.pyx":537
  * 
  * 
  * cdef void encode(Node *node, double[::1] x, list code, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef double dst
+ *     """
+ *     Recursively encode x.
  */
 
   /* function exit code */
@@ -6288,12 +6298,12 @@ static void __pyx_f_8rpforest_13rpforest_fast_encode(struct __pyx_t_8rpforest_13
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":478
+/* "rpforest/rpforest_fast.pyx":560
  * 
  * # Serialisation and deserialisation
  * cdef void write_node(Node *node, ba, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Recursively write nodes to a bytearray.
  */
 
 static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_v_node, PyObject *__pyx_v_ba, unsigned int __pyx_v_dim) {
@@ -6316,29 +6326,29 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("write_node", 0);
 
-  /* "rpforest/rpforest_fast.pyx":482
+  /* "rpforest/rpforest_fast.pyx":567
  *     cdef unsigned int i
  * 
  *     ba.extend(struct.pack('@B',             # <<<<<<<<<<<<<<
  *                           node.n_descendants))
  *     ba.extend(struct.pack(hyp_symbol,
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":483
+  /* "rpforest/rpforest_fast.pyx":568
  * 
  *     ba.extend(struct.pack('@B',
  *                           node.n_descendants))             # <<<<<<<<<<<<<<
  *     ba.extend(struct.pack(hyp_symbol,
  *                           node.median))
  */
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_char(__pyx_v_node->n_descendants); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_char(__pyx_v_node->n_descendants); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 568; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -6352,7 +6362,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_6) {
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
@@ -6363,7 +6373,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6378,46 +6388,46 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
     PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 567; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":484
+  /* "rpforest/rpforest_fast.pyx":569
  *     ba.extend(struct.pack('@B',
  *                           node.n_descendants))
  *     ba.extend(struct.pack(hyp_symbol,             # <<<<<<<<<<<<<<
  *                           node.median))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":485
+  /* "rpforest/rpforest_fast.pyx":570
  *                           node.n_descendants))
  *     ba.extend(struct.pack(hyp_symbol,
  *                           node.median))             # <<<<<<<<<<<<<<
  * 
  *     if node.n_descendants == 0:
  */
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_node->median); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_node->median); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 570; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_7 = 0;
@@ -6431,7 +6441,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   if (__pyx_t_4) {
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
@@ -6442,7 +6452,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_7, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6457,24 +6467,24 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
     PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_8);
     __pyx_t_8 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "rpforest/rpforest_fast.pyx":487
+  /* "rpforest/rpforest_fast.pyx":572
  *                           node.median))
  * 
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
@@ -6484,29 +6494,29 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   __pyx_t_9 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_9) {
 
-    /* "rpforest/rpforest_fast.pyx":488
+    /* "rpforest/rpforest_fast.pyx":573
  * 
  *     if node.n_descendants == 0:
  *         ba.extend(struct.pack('@I',             # <<<<<<<<<<<<<<
  *                               node.indices.size()))
  *         for i in range(node.indices.size()):
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":489
+    /* "rpforest/rpforest_fast.pyx":574
  *     if node.n_descendants == 0:
  *         ba.extend(struct.pack('@I',
  *                               node.indices.size()))             # <<<<<<<<<<<<<<
  *         for i in range(node.indices.size()):
  *             ba.extend(struct.pack('@i',
  */
-    __pyx_t_8 = __Pyx_PyInt_FromSize_t(__pyx_v_node->indices->size()); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_PyInt_FromSize_t(__pyx_v_node->indices->size()); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 574; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_3 = NULL;
     __pyx_t_7 = 0;
@@ -6520,7 +6530,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
         __pyx_t_7 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_3) {
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
@@ -6531,7 +6541,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_8);
     __pyx_t_8 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6546,24 +6556,24 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "rpforest/rpforest_fast.pyx":490
+    /* "rpforest/rpforest_fast.pyx":575
  *         ba.extend(struct.pack('@I',
  *                               node.indices.size()))
  *         for i in range(node.indices.size()):             # <<<<<<<<<<<<<<
@@ -6574,29 +6584,29 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_i = __pyx_t_11;
 
-      /* "rpforest/rpforest_fast.pyx":491
+      /* "rpforest/rpforest_fast.pyx":576
  *                               node.indices.size()))
  *         for i in range(node.indices.size()):
  *             ba.extend(struct.pack('@i',             # <<<<<<<<<<<<<<
  *                                   deref(node.indices)[i]))
  *     else:
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "rpforest/rpforest_fast.pyx":492
+      /* "rpforest/rpforest_fast.pyx":577
  *         for i in range(node.indices.size()):
  *             ba.extend(struct.pack('@i',
  *                                   deref(node.indices)[i]))             # <<<<<<<<<<<<<<
  *     else:
  *         for i in range(dim):
  */
-      __pyx_t_6 = __Pyx_PyInt_From_int(((*__pyx_v_node->indices)[__pyx_v_i])); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 492; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyInt_From_int(((*__pyx_v_node->indices)[__pyx_v_i])); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 577; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_8 = NULL;
       __pyx_t_7 = 0;
@@ -6610,7 +6620,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
           __pyx_t_7 = 1;
         }
       }
-      __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       if (__pyx_t_8) {
         PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
@@ -6621,7 +6631,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6636,17 +6646,17 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
         }
       }
       if (!__pyx_t_5) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
         PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_4);
         __pyx_t_4 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
@@ -6657,7 +6667,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":494
+    /* "rpforest/rpforest_fast.pyx":579
  *                                   deref(node.indices)[i]))
  *     else:
  *         for i in range(dim):             # <<<<<<<<<<<<<<
@@ -6668,29 +6678,29 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
     for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
       __pyx_v_i = __pyx_t_12;
 
-      /* "rpforest/rpforest_fast.pyx":495
+      /* "rpforest/rpforest_fast.pyx":580
  *     else:
  *         for i in range(dim):
  *             ba.extend(struct.pack(hyp_symbol,             # <<<<<<<<<<<<<<
  *                                   node.hyperplane[i]))
  * 
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ba, __pyx_n_s_extend); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_struct); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_pack); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "rpforest/rpforest_fast.pyx":496
+      /* "rpforest/rpforest_fast.pyx":581
  *         for i in range(dim):
  *             ba.extend(struct.pack(hyp_symbol,
  *                                   node.hyperplane[i]))             # <<<<<<<<<<<<<<
  * 
  *         write_node(node.left, ba, dim)
  */
-      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_node->hyperplane[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_node->hyperplane[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 581; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_6 = NULL;
       __pyx_t_7 = 0;
@@ -6704,7 +6714,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
           __pyx_t_7 = 1;
         }
       }
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
@@ -6715,7 +6725,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6730,17 +6740,17 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
         }
       }
       if (!__pyx_t_5) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_8);
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_3);
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 580; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
@@ -6748,7 +6758,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "rpforest/rpforest_fast.pyx":498
+    /* "rpforest/rpforest_fast.pyx":583
  *                                   node.hyperplane[i]))
  * 
  *         write_node(node.left, ba, dim)             # <<<<<<<<<<<<<<
@@ -6757,7 +6767,7 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
  */
     __pyx_f_8rpforest_13rpforest_fast_write_node(__pyx_v_node->left, __pyx_v_ba, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":499
+    /* "rpforest/rpforest_fast.pyx":584
  * 
  *         write_node(node.left, ba, dim)
  *         write_node(node.right, ba, dim)             # <<<<<<<<<<<<<<
@@ -6768,12 +6778,12 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":478
+  /* "rpforest/rpforest_fast.pyx":560
  * 
  * # Serialisation and deserialisation
  * cdef void write_node(Node *node, ba, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i
+ *     """
+ *     Recursively write nodes to a bytearray.
  */
 
   /* function exit code */
@@ -6791,12 +6801,12 @@ static void __pyx_f_8rpforest_13rpforest_fast_write_node(struct __pyx_t_8rpfores
   __Pyx_RefNannyFinishContext();
 }
 
-/* "rpforest/rpforest_fast.pyx":502
+/* "rpforest/rpforest_fast.pyx":587
  * 
  * 
  * cdef Node* read_node(BArray ba, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, size
+ *     """
+ *     Recursively read nodes from bytearray.
  */
 
 static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpforest_fast_read_node(struct __pyx_obj_8rpforest_13rpforest_fast_BArray *__pyx_v_ba, unsigned int __pyx_v_dim) {
@@ -6814,7 +6824,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("read_node", 0);
 
-  /* "rpforest/rpforest_fast.pyx":508
+  /* "rpforest/rpforest_fast.pyx":599
  *     cdef Node *node
  * 
  *     node = new_node(dim)             # <<<<<<<<<<<<<<
@@ -6823,7 +6833,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   __pyx_v_node = __pyx_f_8rpforest_13rpforest_fast_new_node(__pyx_v_dim);
 
-  /* "rpforest/rpforest_fast.pyx":511
+  /* "rpforest/rpforest_fast.pyx":602
  * 
  *     # Read number of descendants
  *     memcpy(&node.n_descendants, ba.char_arr + ba.offset, sizeof(unsigned char));             # <<<<<<<<<<<<<<
@@ -6832,7 +6842,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   memcpy((&__pyx_v_node->n_descendants), (__pyx_v_ba->char_arr + __pyx_v_ba->offset), (sizeof(unsigned char)));
 
-  /* "rpforest/rpforest_fast.pyx":512
+  /* "rpforest/rpforest_fast.pyx":603
  *     # Read number of descendants
  *     memcpy(&node.n_descendants, ba.char_arr + ba.offset, sizeof(unsigned char));
  *     ba.offset += uchar_size             # <<<<<<<<<<<<<<
@@ -6841,7 +6851,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_uchar_size);
 
-  /* "rpforest/rpforest_fast.pyx":515
+  /* "rpforest/rpforest_fast.pyx":606
  * 
  *     # Read median
  *     memcpy(&node.median, ba.char_arr + ba.offset, sizeof(hyp));             # <<<<<<<<<<<<<<
@@ -6850,7 +6860,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   memcpy((&__pyx_v_node->median), (__pyx_v_ba->char_arr + __pyx_v_ba->offset), (sizeof(__pyx_t_8rpforest_13rpforest_fast_hyp)));
 
-  /* "rpforest/rpforest_fast.pyx":516
+  /* "rpforest/rpforest_fast.pyx":607
  *     # Read median
  *     memcpy(&node.median, ba.char_arr + ba.offset, sizeof(hyp));
  *     ba.offset += hyp_size             # <<<<<<<<<<<<<<
@@ -6859,7 +6869,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_hyp_size);
 
-  /* "rpforest/rpforest_fast.pyx":519
+  /* "rpforest/rpforest_fast.pyx":610
  * 
  *     # Read leaf element ids if present
  *     if node.n_descendants == 0:             # <<<<<<<<<<<<<<
@@ -6869,7 +6879,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   __pyx_t_1 = ((__pyx_v_node->n_descendants == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "rpforest/rpforest_fast.pyx":520
+    /* "rpforest/rpforest_fast.pyx":611
  *     # Read leaf element ids if present
  *     if node.n_descendants == 0:
  *         memcpy(&size, ba.char_arr + ba.offset, sizeof(unsigned int));             # <<<<<<<<<<<<<<
@@ -6878,7 +6888,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
     memcpy((&__pyx_v_size), (__pyx_v_ba->char_arr + __pyx_v_ba->offset), (sizeof(unsigned int)));
 
-    /* "rpforest/rpforest_fast.pyx":521
+    /* "rpforest/rpforest_fast.pyx":612
  *     if node.n_descendants == 0:
  *         memcpy(&size, ba.char_arr + ba.offset, sizeof(unsigned int));
  *         ba.offset += uint_size             # <<<<<<<<<<<<<<
@@ -6887,7 +6897,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
     __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_uint_size);
 
-    /* "rpforest/rpforest_fast.pyx":522
+    /* "rpforest/rpforest_fast.pyx":613
  *         memcpy(&size, ba.char_arr + ba.offset, sizeof(unsigned int));
  *         ba.offset += uint_size
  *         node.indices.reserve(size)             # <<<<<<<<<<<<<<
@@ -6896,7 +6906,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
     __pyx_v_node->indices->reserve(__pyx_v_size);
 
-    /* "rpforest/rpforest_fast.pyx":523
+    /* "rpforest/rpforest_fast.pyx":614
  *         ba.offset += uint_size
  *         node.indices.reserve(size)
  *         for i in range(size):             # <<<<<<<<<<<<<<
@@ -6907,7 +6917,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
     for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
       __pyx_v_i = __pyx_t_3;
 
-      /* "rpforest/rpforest_fast.pyx":524
+      /* "rpforest/rpforest_fast.pyx":615
  *         node.indices.reserve(size)
  *         for i in range(size):
  *             memcpy(&idx, ba.char_arr + ba.offset, sizeof(int));             # <<<<<<<<<<<<<<
@@ -6916,7 +6926,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
       memcpy((&__pyx_v_idx), (__pyx_v_ba->char_arr + __pyx_v_ba->offset), (sizeof(int)));
 
-      /* "rpforest/rpforest_fast.pyx":525
+      /* "rpforest/rpforest_fast.pyx":616
  *         for i in range(size):
  *             memcpy(&idx, ba.char_arr + ba.offset, sizeof(int));
  *             node.indices.push_back(idx)             # <<<<<<<<<<<<<<
@@ -6927,10 +6937,10 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
         __pyx_v_node->indices->push_back(__pyx_v_idx);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 525; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
 
-      /* "rpforest/rpforest_fast.pyx":526
+      /* "rpforest/rpforest_fast.pyx":617
  *             memcpy(&idx, ba.char_arr + ba.offset, sizeof(int));
  *             node.indices.push_back(idx)
  *             ba.offset += int_size             # <<<<<<<<<<<<<<
@@ -6943,7 +6953,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   }
   /*else*/ {
 
-    /* "rpforest/rpforest_fast.pyx":530
+    /* "rpforest/rpforest_fast.pyx":621
  *     # Read hyperplane values if present
  *     else:
  *         for i in range(dim):             # <<<<<<<<<<<<<<
@@ -6954,7 +6964,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
     for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
       __pyx_v_i = __pyx_t_3;
 
-      /* "rpforest/rpforest_fast.pyx":531
+      /* "rpforest/rpforest_fast.pyx":622
  *     else:
  *         for i in range(dim):
  *             memcpy(&node.hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp));             # <<<<<<<<<<<<<<
@@ -6963,7 +6973,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
       memcpy((&(__pyx_v_node->hyperplane[__pyx_v_i])), (__pyx_v_ba->char_arr + __pyx_v_ba->offset), (sizeof(__pyx_t_8rpforest_13rpforest_fast_hyp)));
 
-      /* "rpforest/rpforest_fast.pyx":532
+      /* "rpforest/rpforest_fast.pyx":623
  *         for i in range(dim):
  *             memcpy(&node.hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp));
  *             ba.offset += hyp_size             # <<<<<<<<<<<<<<
@@ -6973,7 +6983,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
       __pyx_v_ba->offset = (__pyx_v_ba->offset + __pyx_v_8rpforest_13rpforest_fast_hyp_size);
     }
 
-    /* "rpforest/rpforest_fast.pyx":535
+    /* "rpforest/rpforest_fast.pyx":626
  * 
  *         # Read child nodes
  *         node.left = read_node(ba, dim)             # <<<<<<<<<<<<<<
@@ -6982,7 +6992,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
     __pyx_v_node->left = __pyx_f_8rpforest_13rpforest_fast_read_node(__pyx_v_ba, __pyx_v_dim);
 
-    /* "rpforest/rpforest_fast.pyx":536
+    /* "rpforest/rpforest_fast.pyx":627
  *         # Read child nodes
  *         node.left = read_node(ba, dim)
  *         node.right = read_node(ba, dim)             # <<<<<<<<<<<<<<
@@ -6993,7 +7003,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   }
   __pyx_L3:;
 
-  /* "rpforest/rpforest_fast.pyx":538
+  /* "rpforest/rpforest_fast.pyx":629
  *         node.right = read_node(ba, dim)
  * 
  *     slim_node(node)             # <<<<<<<<<<<<<<
@@ -7002,7 +7012,7 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
  */
   __pyx_f_8rpforest_13rpforest_fast_slim_node(__pyx_v_node);
 
-  /* "rpforest/rpforest_fast.pyx":540
+  /* "rpforest/rpforest_fast.pyx":631
  *     slim_node(node)
  * 
  *     return node             # <<<<<<<<<<<<<<
@@ -7010,12 +7020,12 @@ static struct __pyx_t_8rpforest_13rpforest_fast_Node *__pyx_f_8rpforest_13rpfore
   __pyx_r = __pyx_v_node;
   goto __pyx_L0;
 
-  /* "rpforest/rpforest_fast.pyx":502
+  /* "rpforest/rpforest_fast.pyx":587
  * 
  * 
  * cdef Node* read_node(BArray ba, unsigned int dim):             # <<<<<<<<<<<<<<
- * 
- *     cdef unsigned int i, size
+ *     """
+ *     Recursively read nodes from bytearray.
  */
 
   /* function exit code */
@@ -19796,7 +19806,7 @@ static PyTypeObject __pyx_type_8rpforest_13rpforest_fast_BArray = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  0, /*tp_doc*/
+  "\n    Bytearray that keeps the track of the current offset.\n    ", /*tp_doc*/
   __pyx_tp_traverse_8rpforest_13rpforest_fast_BArray, /*tp_traverse*/
   __pyx_tp_clear_8rpforest_13rpforest_fast_BArray, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -19857,14 +19867,14 @@ static void __pyx_tp_dealloc_8rpforest_13rpforest_fast_Tree(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_8rpforest_13rpforest_fast_Tree[] = {
-  {"make_tree", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_3make_tree, METH_O, 0},
-  {"index", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index, METH_VARARGS|METH_KEYWORDS, 0},
+  {"make_tree", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_3make_tree, METH_O, __pyx_doc_8rpforest_13rpforest_fast_4Tree_2make_tree},
+  {"index", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_5index, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8rpforest_13rpforest_fast_4Tree_4index},
   {"shrink_to_size", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_7shrink_to_size, METH_NOARGS, 0},
-  {"get_leaf_nodes", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_9get_leaf_nodes, METH_NOARGS, 0},
-  {"serialize", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_12serialize, METH_NOARGS, 0},
-  {"deserialize", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_14deserialize, METH_O, 0},
-  {"get_size", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_16get_size, METH_NOARGS, 0},
-  {"clear", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_18clear, METH_NOARGS, 0},
+  {"get_leaf_nodes", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_9get_leaf_nodes, METH_NOARGS, __pyx_doc_8rpforest_13rpforest_fast_4Tree_8get_leaf_nodes},
+  {"serialize", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_12serialize, METH_NOARGS, __pyx_doc_8rpforest_13rpforest_fast_4Tree_11serialize},
+  {"deserialize", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_14deserialize, METH_O, __pyx_doc_8rpforest_13rpforest_fast_4Tree_13deserialize},
+  {"get_size", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_16get_size, METH_NOARGS, __pyx_doc_8rpforest_13rpforest_fast_4Tree_15get_size},
+  {"clear", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_4Tree_18clear, METH_NOARGS, __pyx_doc_8rpforest_13rpforest_fast_4Tree_17clear},
   {0, 0, 0, 0}
 };
 
@@ -20695,9 +20705,9 @@ static PyTypeObject __pyx_type___pyx_memoryviewslice = {
 };
 
 static PyMethodDef __pyx_methods[] = {
-  {"encode_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_1encode_all, METH_VARARGS|METH_KEYWORDS, 0},
-  {"query_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_3query_all, METH_VARARGS|METH_KEYWORDS, 0},
-  {"get_candidates_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all, METH_VARARGS|METH_KEYWORDS, 0},
+  {"encode_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_1encode_all, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8rpforest_13rpforest_fast_encode_all},
+  {"query_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_3query_all, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8rpforest_13rpforest_fast_2query_all},
+  {"get_candidates_all", (PyCFunction)__pyx_pw_8rpforest_13rpforest_fast_5get_candidates_all, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8rpforest_13rpforest_fast_4get_candidates_all},
   {0, 0, 0, 0}
 };
 
@@ -20829,7 +20839,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 370; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 431; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 802; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -21241,15 +21251,15 @@ PyMODINIT_FUNC PyInit_rpforest_fast(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast_BArray) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast_BArray) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8rpforest_13rpforest_fast_BArray.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "BArray", (PyObject *)&__pyx_type_8rpforest_13rpforest_fast_BArray) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "BArray", (PyObject *)&__pyx_type_8rpforest_13rpforest_fast_BArray) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_8rpforest_13rpforest_fast_BArray = &__pyx_type_8rpforest_13rpforest_fast_BArray;
-  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast_Tree) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast_Tree) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8rpforest_13rpforest_fast_Tree.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "Tree", (PyObject *)&__pyx_type_8rpforest_13rpforest_fast_Tree) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "Tree", (PyObject *)&__pyx_type_8rpforest_13rpforest_fast_Tree) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_8rpforest_13rpforest_fast_Tree = &__pyx_type_8rpforest_13rpforest_fast_Tree;
-  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes.tp_print = 0;
   __pyx_ptype_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes = &__pyx_type_8rpforest_13rpforest_fast___pyx_scope_struct__get_leaf_nodes;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
