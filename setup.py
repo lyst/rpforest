@@ -100,6 +100,7 @@ setup(
     tests_require=['pytest', 'scikit-learn', 'scipy'],
     cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
     author='LYST Ltd (Maciej Kula)',
+    author_email='data@lyst.com',
     url='https://github.com/lyst/rpforest',
     download_url='https://github.com/lyst/rpforest/tarball/1.0',
     license='Apache 2.0',
