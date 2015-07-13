@@ -92,7 +92,7 @@ reqs = open('requirements.txt', 'r').read().split('\n')
 
 setup(
     name='rpforest',
-    version='0.9',
+    version='1.0',
     description='Random Projection Forest for approximate nearest neighbours search.',
     long_description='',
     packages=['rpforest'],
