@@ -100,7 +100,7 @@ setup(
     author='LYST Ltd (Maciej Kula)',
     author_email='data@lyst.com',
     url='https://github.com/lyst/rpforest',
-    download_url='https://github.com/lyst/rpforest/tarball/1.0',
+    download_url='https://github.com/lyst/rpforest/tarball/1.1',
     license='Apache 2.0',
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: Apache Software License'],
