@@ -18,9 +18,8 @@ Querying the model is accomplished by traversing each tree to the query point's 
 
 ## Installation
 
-1. Clone the rpforest repository: `git clone git@github.com:lyst/rpforest.git`
-2. Install it using pip: `cd rpforest && pip install .`
-3. You can run tests by running `python setupy.py test`.
+1. Install numpy first.
+2. Install rpforest using pip: `pip install rpforest`
 
 ## Usage
 
@@ -71,4 +70,10 @@ On the GloVe cosine distance benchmark, rpforest is not as fast as  highly optim
 <center>![Performance](glove.png)</center>
 
 ## Development
-Pull requests are welcome. When making changes to the `.pyx` extension files, you'll need to run `python setup.py cythonize` in order to produce the extension `.cpp` files before running `pip install -e .`.
+Pull requests are welcome. To install for development:
+
+1. Clone the rpforest repository: `git clone git@github.com:lyst/rpforest.git`
+2. Install it for development using pip: `cd rpforest && pip install -e .`
+3. You can run tests by running `python setupy.py test`.
+
+When making changes to the `.pyx` extension files, you'll need to run `python setup.py cythonize` in order to produce the extension `.cpp` files before running `pip install -e .`.
