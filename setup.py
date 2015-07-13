@@ -22,6 +22,15 @@ def define_extensions(file_ext):
                       extra_link_args=["-std=c++11"])]
 
 
+def get_requirements():
+
+    reqs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'requirements.txt')
+
+    with open(reqs_path, 'r') as reqs_file:
+        return reqs_file.read().split('\n')
+
+
 class Cythonize(Command):
     """
     Compile the extension .pyx files.
@@ -87,16 +96,13 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-reqs = open('requirements.txt', 'r').read().split('\n')
-
-
 setup(
     name='rpforest',
     version='1.0',
     description='Random Projection Forest for approximate nearest neighbours search.',
     long_description='',
     packages=['rpforest'],
-    install_requires=reqs,
+    install_requires=get_requirements(),
     tests_require=['pytest', 'scikit-learn', 'scipy'],
     cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
     author='LYST Ltd (Maciej Kula)',
