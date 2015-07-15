@@ -56,7 +56,7 @@ class RPForest(object):
         """
 
         if self._is_constructed():
-            raise Exception('Tree has already been created.')
+            print "Model has already been previously fit, continuing..."
 
         if X.shape[0] < 1 or X.shape[1] < 1:
             raise Exception('You must supply a valid 2D array.')
