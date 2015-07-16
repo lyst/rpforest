@@ -53,6 +53,9 @@ class RPForest(object):
         - optional boolean normalise: whether to normalise X. If True,
                                       a copy of X will be made and
                                       normalised.
+
+        Returns:
+        - object self
         """
 
         if self._is_constructed():
@@ -72,6 +75,8 @@ class RPForest(object):
             tree = Tree(self.leaf_size, self.dim)
             tree.make_tree(self._X)
             self.trees.append(tree)
+
+        return self
 
     def clear(self):
         """
