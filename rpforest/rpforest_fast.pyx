@@ -446,12 +446,15 @@ cdef inline void slim_node(Node *node) nogil:
     depending if a node is a leaf or an internal node.
     """
 
+    cdef vector[int] swapped_indices
+
     if node.n_descendants > 0:
         if node.indices != NULL:
             del node.indices
             node.indices = NULL
     else:
-        node.indices.shrink_to_fit()
+        swapped_indices = vector[int](deref(node.indices))
+        node.indices.swap(swapped_indices)
         if node.hyperplane != NULL:
             free(node.hyperplane)
             node.hyperplane = NULL
@@ -485,9 +488,12 @@ cdef void clear(Node *node) nogil:
     its children.
     """
 
+    cdef vector[int] swapped_indices
+
     if node.n_descendants == 0:
         node.indices.clear()
-        node.indices.shrink_to_fit()
+        swapped_indices = vector[int](deref(node.indices))
+        node.indices.swap(swapped_indices)
     else:
         clear(node.left)
         clear(node.right)
