@@ -53,10 +53,10 @@ class RPForest(object):
         - optional boolean normalise: whether to normalise X. If True,
                                       a copy of X will be made and
                                       normalised.
-        """
 
-        if self._is_constructed():
-            raise Exception('Tree has already been created.')
+        Returns:
+        - object self
+        """
 
         if X.shape[0] < 1 or X.shape[1] < 1:
             raise Exception('You must supply a valid 2D array.')
@@ -68,10 +68,15 @@ class RPForest(object):
         else:
             self._X = X
 
+        # Reset the trees list in case of repeated calls to fit
+        self.trees = []
+
         for _ in range(self.no_trees):
             tree = Tree(self.leaf_size, self.dim)
             tree.make_tree(self._X)
             self.trees.append(tree)
+
+        return self
 
     def clear(self):
         """
