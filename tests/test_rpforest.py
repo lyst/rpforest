@@ -225,3 +225,17 @@ def test_sample_training():
         precision /= X_test.shape[0]
 
         assert precision >= expected_precision
+
+
+def test_multiple_fit_calls():
+
+    X_train, X_test = _get_mnist_data()
+
+    tree = RPForest(leaf_size=10, no_trees=10)
+    tree.fit(X_train)
+
+    assert len(tree.trees) == 10
+
+    tree.fit(X_train)
+
+    assert len(tree.trees) == 10
