@@ -17,9 +17,7 @@ def define_extensions(file_ext):
     return [Extension("rpforest.rpforest_fast",
                       ['rpforest/rpforest_fast%s' % file_ext],
                       language="c++",
-                      include_dirs=[np.get_include()],
-                      extra_compile_args=["-std=c++11"],
-                      extra_link_args=["-std=c++11"])]
+                      include_dirs=[np.get_include()])]
 
 
 class Cythonize(Command):
@@ -71,7 +69,7 @@ class PyTest(TestCommand):
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
-        self.pytest_args = []
+        self.pytest_args = ['tests/']
 
     def finalize_options(self):
         TestCommand.finalize_options(self)
