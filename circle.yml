@@ -1,0 +1,5 @@
+dependencies:
+  pre:
+    - pip install pytest
+    - pip install scipy
+    - pip install scikit-learn
