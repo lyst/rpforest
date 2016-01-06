@@ -17,9 +17,7 @@ def define_extensions(file_ext):
     return [Extension("rpforest.rpforest_fast",
                       ['rpforest/rpforest_fast%s' % file_ext],
                       language="c++",
-                      include_dirs=[np.get_include()],
-                      extra_compile_args=["-std=c++11"],
-                      extra_link_args=["-std=c++11"])]
+                      include_dirs=[np.get_include()])]
 
 
 class Cythonize(Command):
