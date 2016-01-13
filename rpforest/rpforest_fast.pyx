@@ -9,6 +9,7 @@ import numpy as np
 cimport numpy as cnp
 
 from libc.stdlib cimport malloc, free
+from libc.stdint cimport uintptr_t
 
 cdef extern from "string.h":
     void memcpy(void* des, void* src, int size)
@@ -55,7 +56,7 @@ cpdef list encode_all(double[::1] x, list trees):
         tree = trees[i]
         root = tree.root
         code = []
-        encode(root, x, code, dim)
+        encode(root, tree.hyperplanes, x, code, dim)
         codes.append('%s:' % i + ''.join(code))
 
     return codes
@@ -182,7 +183,7 @@ cdef vector[int] _get_candidates(double[::1] x, list roots, int dim):
     for i in range(no_roots):
         tree = roots[i]
         root = tree.root
-        leaf = query(root, x, dim)
+        leaf = query(root, tree.hyperplanes, x)
         candidates.insert(candidates.end(),
                           leaf.indices.begin(),
                           leaf.indices.end())
@@ -207,8 +208,17 @@ cdef class BArray:
 
 
 cdef class Tree:
+    """
+    A random projection tree.
+
+    It consists of two main data structures:
+    - a root node which contains links to its child nodes
+    - the set of hyperplanes used by the nodes
+    """
 
     cdef Node *root
+    cdef Hyperplanes* hyperplanes
+
     cdef unsigned int max_size
     cdef unsigned int dim
 
@@ -216,8 +226,9 @@ cdef class Tree:
 
         self.max_size = max_size
         self.dim = dim
+        self.hyperplanes = new_hyperplanes(dim)
 
-        self.root = new_node(self.dim)
+        self.root = new_node(0)
 
     def make_tree(self, double[:, ::1] X):
         """
@@ -230,7 +241,7 @@ cdef class Tree:
         for i in range(X.shape[0]):
             self.root.indices.push_back(i)
 
-        make_tree(self.root, X, self.max_size, self.dim)
+        make_tree(self.root, self.hyperplanes, X, self.max_size, 0)
 
     def index(self, idx, double[::1] x):
         """
@@ -239,7 +250,7 @@ cdef class Tree:
 
         cdef Node *leaf
 
-        leaf = query(self.root, x, self.dim)
+        leaf = query(self.root, self.hyperplanes, x)
         leaf.indices.push_back(idx)
 
     def shrink_to_size(self):
@@ -271,8 +282,14 @@ cdef class Tree:
         ba.extend(struct.pack('@II',
                               self.max_size,
                               self.dim))
+        ba.extend(struct.pack('@II',
+                              self.hyperplanes.dim,
+                              self.hyperplanes.num))
+        for i in range(self.hyperplanes.hyperplanes.size()):
+            ba.extend(struct.pack(hyp_symbol,
+                                  deref(self.hyperplanes.hyperplanes)[i]))
 
-        write_node(self.root, ba, self.dim)
+        write_node(self.root, ba)
 
         return ba
 
@@ -294,6 +311,25 @@ cdef class Tree:
                                       offset=ba.offset)[0]
         ba.offset += uint_size
 
+        # Read hyperplanes
+        dim = struct.unpack_from('@I',
+                                 ba.arr,
+                                 offset=ba.offset)[0]
+        ba.offset += uint_size
+        self.hyperplanes = new_hyperplanes(dim)
+        num = struct.unpack_from('@I',
+                                 ba.arr,
+                                 offset=ba.offset)[0]
+        ba.offset += uint_size
+        self.hyperplanes.num = num
+
+        for i in range(num * dim):
+            self.hyperplanes.hyperplanes.push_back(
+                struct.unpack_from(hyp_symbol,
+                                   ba.arr,
+                                   offset=ba.offset)[0])
+            ba.offset += hyp_size
+
         # Read tree
         self.root = read_node(ba, self.dim)
 
@@ -302,7 +338,9 @@ cdef class Tree:
         Return the memory size of the tree, in bytes.
         """
 
-        return get_size(self.root, self.dim)
+        return (sizeof(Hyperplanes)
+                + self.hyperplanes.hyperplanes.capacity()
+                + get_size(self.root))
 
     def clear(self):
         """
@@ -314,16 +352,18 @@ cdef class Tree:
     def __dealloc__(self):
 
         del_node(self.root)
+        free_hyperplanes(self.hyperplanes)
 
 
-cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigned int dim):
+cdef void make_tree(Node *node, Hyperplanes* hyper, double[:, ::1] X,
+                    unsigned int max_size, unsigned int depth):
     """
     Recursively build a random projection tree starting at node.
     """
 
     cdef int i
     cdef double dst
-    cdef double[::1] hyperplane
+    cdef hyp* hyperplane
     cdef vector[double] dist
 
     cdef Node *left
@@ -334,23 +374,24 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
         return
 
     # Allocate child nodes.
-    left = new_node(dim)
-    right = new_node(dim)
+    left = new_node(depth + 1)
+    right = new_node(depth + 1)
 
-    # Generate the random hyperplane.
-    hyperplane = np.random.randn(dim)
-    hyperplane /= np.linalg.norm(hyperplane)
+    # Create a new hyperplane if there is none
+    # for the current depth
+    if depth >= hyper.num:
+        add_hyperplane(hyper)
 
-    for i in range(dim):
-        node.hyperplane[i] = <hyp>hyperplane[i]
+    # Get the hyperplane
+    hyperplane = get_hyperplane(hyper, depth)
 
     # Calculate the median cosine similarity
     # between the hyperplane and the points.
     for i in range(node.indices.size()):
         idx = deref(node.indices)[i]
-        dst = dot(node.hyperplane,
-                  X[idx, :],
-                  dim)
+        dst = dot(hyperplane,
+                   X[idx, :],
+                   hyper.dim)
         dist.push_back(dst)
 
     sort(dist.begin(), dist.end())
@@ -359,9 +400,9 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
     # Split points at median similarity.
     for i in range(node.indices.size()):
         idx = deref(node.indices)[i]
-        dst = dot(node.hyperplane,
+        dst = dot(hyperplane,
                   X[idx, :],
-                  dim)
+                  hyper.dim)
         if dst <= node.median:
             left.indices.push_back(idx)
         else:
@@ -379,8 +420,8 @@ cdef void make_tree(Node *node, double[:, ::1] X, unsigned int max_size, unsigne
     slim_node(node)
 
     # Recursively split child subtrees.
-    make_tree(left, X, max_size, dim)
-    make_tree(right, X, max_size, dim)
+    make_tree(left, hyper, X, max_size, depth + 1)
+    make_tree(right, hyper, X, max_size, depth + 1)
 
 
 cdef void get_leaf_nodes(Node *node, vector[Node*] *leaves, list leaf_codes, str code):
@@ -410,17 +451,63 @@ cdef void slim_all(Node *node):
 
 cdef packed struct Node:
 
+    unsigned int depth
     unsigned char n_descendants
     hyp median
 
-    hyp *hyperplane
     vector[int] *indices
 
     Node *left
     Node *right
 
 
-cdef inline Node* new_node(unsigned int dim):
+cdef struct Hyperplanes:
+    unsigned int dim
+    unsigned int num
+    vector[hyp] *hyperplanes
+
+
+cdef Hyperplanes* new_hyperplanes(unsigned int dim):
+
+    cdef Hyperplanes* hyper
+
+    hyper = <Hyperplanes *>malloc(sizeof(Hyperplanes))
+    hyper.dim = dim
+    hyper.num = 0
+    hyper.hyperplanes = new vector[hyp]()
+
+    return hyper
+
+
+cdef void free_hyperplanes(Hyperplanes* hyper):
+
+    del hyper.hyperplanes
+    free(hyper)
+
+
+cdef void add_hyperplane(Hyperplanes* hyper):
+
+    cdef int i
+    cdef hyp[::1] hyperplane
+
+    hyper.num += 1
+
+    # Generate the random hyperplane.
+    hyperplane = np.random.randn(hyper.dim).astype(np.float32)
+    hyperplane /= np.linalg.norm(hyperplane)
+
+    hyper.hyperplanes.reserve(hyper.num * hyper.dim)
+
+    for i in range(hyper.dim):
+        hyper.hyperplanes.push_back(hyperplane[i])
+
+
+cdef hyp* get_hyperplane(Hyperplanes* hyper, unsigned int row) nogil:
+
+    return &(deref(hyper.hyperplanes)[hyper.dim * row])
+
+
+cdef inline Node* new_node(unsigned int depth):
     """
     Allocate a new node.
     """
@@ -432,18 +519,14 @@ cdef inline Node* new_node(unsigned int dim):
 
     node.n_descendants = 0
     node.indices = new vector[int]()
-    node.hyperplane = <hyp *>malloc(dim * sizeof(hyp))
-
-    if node.hyperplane == NULL:
-        raise MemoryError()
+    node.depth = depth
 
     return node
 
 
 cdef inline void slim_node(Node *node) nogil:
     """
-    Deallocate either the hyperplane or the indices vector,
-    depending if a node is a leaf or an internal node.
+    Deallocate the indices vector if the node is internal
     """
 
     cdef vector[int] swapped_indices
@@ -455,9 +538,6 @@ cdef inline void slim_node(Node *node) nogil:
     else:
         swapped_indices = vector[int](deref(node.indices))
         node.indices.swap(swapped_indices)
-        if node.hyperplane != NULL:
-            free(node.hyperplane)
-            node.hyperplane = NULL
 
 
 cdef inline void add_descendants(Node *node, Node *left, Node *right) nogil:
@@ -475,7 +555,6 @@ cdef void del_node(Node *node) nogil:
     if node.n_descendants > 0:
         del_node(node.left)
         del_node(node.right)
-        free(node.hyperplane)
     else:
         del node.indices
 
@@ -499,7 +578,7 @@ cdef void clear(Node *node) nogil:
         clear(node.right)
 
 
-cdef long get_size(Node *node, unsigned int dim) nogil:
+cdef long get_size(Node *node) nogil:
     """
     Recursively get the size (in bytes) of node and
     its children.
@@ -513,65 +592,73 @@ cdef long get_size(Node *node, unsigned int dim) nogil:
         size += sizeof(vector[int]) + sizeof(int) * node.indices.size()
     else:
         size += sizeof(node)
-        size += dim * sizeof(hyp)
-        size += get_size(node.left, dim)
-        size += get_size(node.right, dim)
+        size += get_size(node.left)
+        size += get_size(node.right)
 
     return size
 
 
-cdef Node* query(Node *node, double[::1] x, unsigned int dim) nogil:
+cdef Node* query(Node *node, Hyperplanes* hyper, double[::1] x):
     """
     Recursively query the node and its children.
     """
 
     cdef double dst
+    cdef hyp* hyperplane
 
     if node.n_descendants == 0:
         return node
 
-    dst = dot(node.hyperplane,
+    hyperplane = get_hyperplane(hyper, node.depth)
+
+    dst = dot(hyperplane,
               x,
-              dim)
+              hyper.dim)
 
     if dst <= node.median:
-        return query(node.left, x, dim)
+        return query(node.left, hyper, x)
     else:
-        return query(node.right, x, dim)
+        return query(node.right, hyper, x)
 
 
-cdef void encode(Node *node, double[::1] x, list code, unsigned int dim):
+cdef void encode(Node *node, Hyperplanes* hyper, double[::1] x, list code, unsigned int dim):
     """
     Recursively encode x.
     """
 
     cdef double dst
+    cdef hyp* hyperplane
 
     if node.n_descendants == 0:
         return
 
-    dst = dot(node.hyperplane,
+    hyperplane = get_hyperplane(hyper, node.depth)
+
+    dst = dot(hyperplane,
               x,
               dim)
 
     if dst <= node.median:
         code.append('0')
-        encode(node.left, x, code, dim)
+        encode(node.left, hyper, x, code, dim)
     else:
         code.append('1')
-        encode(node.right, x, code, dim)
+        encode(node.right, hyper, x, code, dim)
 
 
 # Serialisation and deserialisation
-cdef void write_node(Node *node, ba, unsigned int dim):
+cdef void write_node(Node *node, ba):
     """
     Recursively write nodes to a bytearray.
     """
 
     cdef unsigned int i
+    cdef hyp* hyperplane
 
     ba.extend(struct.pack('@B',
                           node.n_descendants))
+    ba.extend(struct.pack('@I',
+                          node.depth))
     ba.extend(struct.pack(hyp_symbol,
                           node.median))
     
@@ -582,12 +669,8 @@ cdef void write_node(Node *node, ba, unsigned int dim):
             ba.extend(struct.pack('@i',
                                   deref(node.indices)[i]))
     else:
-        for i in range(dim):
-            ba.extend(struct.pack(hyp_symbol,
-                                  node.hyperplane[i]))
-
-        write_node(node.left, ba, dim)
-        write_node(node.right, ba, dim)
+        write_node(node.left, ba)
+        write_node(node.right, ba)
 
 
 cdef Node* read_node(BArray ba, unsigned int dim):
@@ -602,11 +685,15 @@ cdef Node* read_node(BArray ba, unsigned int dim):
     cdef int idx
     cdef Node *node
 
-    node = new_node(dim)
+    node = new_node(0)
 
     # Read number of descendants
     memcpy(&node.n_descendants, ba.char_arr + ba.offset, sizeof(unsigned char));
     ba.offset += uchar_size
+
+    # Read number of descendants
+    memcpy(&node.depth, ba.char_arr + ba.offset, sizeof(unsigned int));
+    ba.offset += uint_size
 
     # Read median
     memcpy(&node.median, ba.char_arr + ba.offset, sizeof(hyp));
@@ -621,13 +708,7 @@ cdef Node* read_node(BArray ba, unsigned int dim):
             memcpy(&idx, ba.char_arr + ba.offset, sizeof(int));
             node.indices.push_back(idx)
             ba.offset += int_size
-
-    # Read hyperplane values if present
     else:
-        for i in range(dim):
-            memcpy(&node.hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp));
-            ba.offset += hyp_size
-
         # Read child nodes
         node.left = read_node(ba, dim)
         node.right = read_node(ba, dim)

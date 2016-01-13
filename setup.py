@@ -17,6 +17,7 @@ def define_extensions(file_ext):
     return [Extension("rpforest.rpforest_fast",
                       ['rpforest/rpforest_fast%s' % file_ext],
                       language="c++",
+                      extra_compile_args=['-ffast-math'],
                       include_dirs=[np.get_include()])]
 
 
