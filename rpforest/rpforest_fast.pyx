@@ -29,6 +29,11 @@ cdef unsigned int uchar_size = calcsize('@B')
 cdef unsigned int hyp_size = calcsize(hyp_symbol)
 
 
+cdef unsigned int SERIALIZATION_PREFIX = 1975230
+cdef unsigned int SERIALIZATION_VERSION = 2000
+
+
+
 cdef inline double dot(hyp *x, double[::1] y, unsigned int n) nogil:
 
     cdef unsigned int i
@@ -280,6 +285,10 @@ cdef class Tree:
 
         ba = bytearray()
         ba.extend(struct.pack('@II',
+                              SERIALIZATION_PREFIX,
+                              SERIALIZATION_VERSION))
+
+        ba.extend(struct.pack('@II',
                               self.max_size,
                               self.dim))
         ba.extend(struct.pack('@II',
@@ -301,6 +310,27 @@ cdef class Tree:
         cdef Node* node
 
         ba = BArray(byte_array, 0)
+
+        serialization_prefix = struct.unpack_from('@I',
+                                           ba.arr,
+                                           offset=ba.offset)[0]
+        ba.offset += uint_size
+
+        if serialization_prefix != SERIALIZATION_PREFIX:
+            # Assume that the previous serialization version would
+            # have written our magic prefix number here
+
+            # Reset offset and start reading according to the
+            # previous protocol
+            ba.offset = 0
+            return self._deserialize_old(byte_array)
+
+        serialization_version = struct.unpack_from('@I',
+                                           ba.arr,
+                                           offset=ba.offset)[0]
+        ba.offset += uint_size
+
+
 
         self.max_size = struct.unpack_from('@I',
                                            ba.arr,
@@ -332,6 +362,28 @@ cdef class Tree:
 
         # Read tree
         self.root = read_node(ba, self.dim)
+
+    def _deserialize_old(self, byte_array):
+        """
+        Read tree from a bytearray serialized using the previous
+        version of rpforest.
+        """
+
+        cdef Node* node
+
+        ba = BArray(byte_array, 0)
+
+        self.max_size = struct.unpack_from('@I',
+                                           ba.arr,
+                                           offset=ba.offset)[0]
+        ba.offset += uint_size
+        self.dim = struct.unpack_from('@I',
+                                      ba.arr,
+                                      offset=ba.offset)[0]
+        ba.offset += uint_size
+
+        # Read tree
+        self.root = _read_node_old(ba, self.hyperplanes)
 
     def get_size(self):
         """
@@ -712,6 +764,64 @@ cdef Node* read_node(BArray ba, unsigned int dim):
         # Read child nodes
         node.left = read_node(ba, dim)
         node.right = read_node(ba, dim)
+
+    slim_node(node)
+
+    return node
+
+
+cdef Node* _read_node_old(BArray ba, Hyperplanes *hyper):
+    """
+    Recursively read nodes from bytearray created using
+    serialization from the previous version.
+    """
+
+    # Using memcpy is orders of magnitude faster
+    # than using struct.unpack_from.
+
+    cdef unsigned int i, size
+    cdef int idx
+    cdef Node *node
+    cdef hyp *hyperplane
+
+    node = new_node(0)
+
+    # Read number of descendants
+    memcpy(&node.n_descendants, ba.char_arr + ba.offset, sizeof(unsigned char));
+    ba.offset += uchar_size
+
+    # Read median
+    memcpy(&node.median, ba.char_arr + ba.offset, sizeof(hyp));
+    ba.offset += hyp_size
+
+    # Read leaf element ids if present
+    if node.n_descendants == 0:
+        memcpy(&size, ba.char_arr + ba.offset, sizeof(unsigned int));
+        ba.offset += uint_size
+        node.indices.reserve(size)
+        for i in range(size):
+            memcpy(&idx, ba.char_arr + ba.offset, sizeof(int));
+            node.indices.push_back(idx)
+            ba.offset += int_size
+
+    else:
+        # Allocate a new hyperplane per internal node
+        add_hyperplane(hyper)
+
+        # Set the node depth to point at
+        # the new hyperplane
+        node.depth = hyper.num - 1
+
+        # Get the hyperplane
+        hyperplane = get_hyperplane(hyper, node.depth)
+
+        for i in range(hyper.dim):
+            memcpy(&hyperplane[i], ba.char_arr + ba.offset, sizeof(hyp));
+            ba.offset += hyp_size
+
+        # Read child nodes
+        node.left = _read_node_old(ba, hyper)
+        node.right = _read_node_old(ba, hyper)
 
     slim_node(node)
 
