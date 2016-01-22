@@ -29,8 +29,7 @@ cdef unsigned int uchar_size = calcsize('@B')
 cdef unsigned int hyp_size = calcsize(hyp_symbol)
 
 
-cdef unsigned int SERIALIZATION_PREFIX = 1975230
-cdef unsigned int SERIALIZATION_VERSION = 2000
+cdef unsigned int SERIALIZATION_VERSION = 2
 
 
 
@@ -285,10 +284,6 @@ cdef class Tree:
 
         ba = bytearray()
         ba.extend(struct.pack('@II',
-                              SERIALIZATION_PREFIX,
-                              SERIALIZATION_VERSION))
-
-        ba.extend(struct.pack('@II',
                               self.max_size,
                               self.dim))
         ba.extend(struct.pack('@II',
@@ -302,7 +297,7 @@ cdef class Tree:
 
         return ba
 
-    def deserialize(self, byte_array):
+    def deserialize(self, byte_array, serialization_version):
         """
         Read tree from a bytearray.
         """
@@ -311,26 +306,10 @@ cdef class Tree:
 
         ba = BArray(byte_array, 0)
 
-        serialization_prefix = struct.unpack_from('@I',
-                                           ba.arr,
-                                           offset=ba.offset)[0]
-        ba.offset += uint_size
-
-        if serialization_prefix != SERIALIZATION_PREFIX:
-            # Assume that the previous serialization version would
-            # have written our magic prefix number here
-
-            # Reset offset and start reading according to the
+        if serialization_version != SERIALIZATION_VERSION:
+            # Start reading according to the
             # previous protocol
-            ba.offset = 0
             return self._deserialize_old(byte_array)
-
-        serialization_version = struct.unpack_from('@I',
-                                           ba.arr,
-                                           offset=ba.offset)[0]
-        ba.offset += uint_size
-
-
 
         self.max_size = struct.unpack_from('@I',
                                            ba.arr,
