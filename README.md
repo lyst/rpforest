@@ -2,6 +2,8 @@
 
 <center>![rpforest](rpforest.jpg)</center>
 
+[![Circle CI](https://circleci.com/gh/lyst/rpforest.svg?style=svg)](https://circleci.com/gh/lyst/rpforest)
+
 rpforest is a Python library for approximate nearest neighbours search: finding points in a high-dimensional space that are close to a given query point in a fast but approximate manner.
 
 rpforest differs from alternative ANN packages such as [annoy](https://github.com/spotify/annoy) by not requiring the storage of all the vectors indexed in the model. Used in this way, rpforest serves to produce a list of candidate ANNs for use by a further service where point vectors are stored (for example, a relational database).
