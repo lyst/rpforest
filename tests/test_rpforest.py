@@ -1,4 +1,5 @@
 import cPickle as pickle
+import os
 
 import numpy as np
 
@@ -7,14 +8,19 @@ from sklearn.datasets import load_digits
 from rpforest import RPForest
 
 
-def _get_mnist_data():
+def _get_mnist_data(seed=None):
 
     digits = load_digits()['images']
+
+    if seed is not None:
+        rnd = np.random.RandomState(seed=seed)
+    else:
+        rnd = np.random.RandomState()
 
     no_img, rows, cols = digits.shape
     X = digits.reshape((no_img, rows * cols))
     X = np.ascontiguousarray(X)
-    np.random.shuffle(X)
+    rnd.shuffle(X)
 
     X_test = X[:100]
     X_train = X[100:]
@@ -239,3 +245,66 @@ def test_multiple_fit_calls():
     tree.fit(X_train)
 
     assert len(tree.trees) == 10
+
+
+def test_load_v1_model():
+    """
+    Make sure that models serialized using older versions deserialize correctly
+    """
+
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        'rpforest_v1.pickle')
+
+    with open(path, 'rb') as fl:
+        tree = pickle.loads(fl.read())
+
+    X_train, X_test = _get_mnist_data(seed=10)
+
+    expected_precision = 0.9
+
+    nodes = {k: set(v) for k, v in tree.get_leaf_nodes()}
+    for i, x_train in enumerate(X_train):
+        nns = tree.query(x_train, 10)[:10]
+        assert nns[0] == i
+
+        point_codes = tree.encode(x_train)
+
+        for code in point_codes:
+            assert i in nodes[code]
+
+    tree = pickle.loads(pickle.dumps(tree))
+
+    nodes = {k: set(v) for k, v in tree.get_leaf_nodes()}
+    for i, x_train in enumerate(X_train):
+        nns = tree.query(x_train, 10)[:10]
+        assert nns[0] == i
+
+        point_codes = tree.encode(x_train)
+
+        for code in point_codes:
+            assert i in nodes[code]
+
+    # Pickle and unpickle again
+    tree = pickle.loads(pickle.dumps(tree))
+
+    nodes = {k: set(v) for k, v in tree.get_leaf_nodes()}
+    for i, x_train in enumerate(X_train):
+        nns = tree.query(x_train, 10)[:10]
+        assert nns[0] == i
+
+        point_codes = tree.encode(x_train)
+
+        for code in point_codes:
+            assert i in nodes[code]
+
+    tree = pickle.loads(pickle.dumps(tree))
+
+    nodes = {k: set(v) for k, v in tree.get_leaf_nodes()}
+    for i, x_train in enumerate(X_train):
+        nns = tree.query(x_train, 10)[:10]
+        assert nns[0] == i
+
+        point_codes = tree.encode(x_train)
+
+        for code in point_codes:
+            assert i in nodes[code]

@@ -6,6 +6,9 @@ from rpforest.rpforest_fast import (Tree, query_all, encode_all,
                                     get_candidates_all)
 
 
+SERIALIZATION_VERSION = 2
+
+
 class RPForest(object):
     """
     Constructs approximate nearest neighbour lookup structures
@@ -34,6 +37,8 @@ class RPForest(object):
         self.trees = []
         self.dim = None
         self._X = None
+
+        self.serialization_version = SERIALIZATION_VERSION
 
     def _is_constructed(self):
 
@@ -208,6 +213,7 @@ class RPForest(object):
         state = {'dim': self.dim,
                  'leaf_size': self.leaf_size,
                  'no_trees': self.no_trees,
+                 'serialization_version': self.serialization_version,
                  'X': self._X}
 
         tree_states = []
@@ -230,5 +236,8 @@ class RPForest(object):
 
         for tree_state in state['trees']:
             tree = Tree(self.leaf_size, self.dim)
-            tree.deserialize(tree_state)
+            tree.deserialize(tree_state, state.get('serialization_version', 1))
             self.trees.append(tree)
+
+        # Make sure that when serialized again it gets the right serialization version
+        self.serialization_version = SERIALIZATION_VERSION
