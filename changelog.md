@@ -1,5 +1,9 @@
 # Changelog
 
+## [unreleased][unreleased]
+### Changed
+- removed stdint include to allow compiling with MSVC
+
 ## [1.3][2016-01-22]
 ### Changed
 - all interior nodes of a tree at a given depth now share their hyperplane. This drastically reduces the memory footprint

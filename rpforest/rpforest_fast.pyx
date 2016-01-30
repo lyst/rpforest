@@ -9,7 +9,6 @@ import numpy as np
 cimport numpy as cnp
 
 from libc.stdlib cimport malloc, free
-from libc.stdint cimport uintptr_t
 
 cdef extern from "string.h":
     void memcpy(void* des, void* src, int size)
