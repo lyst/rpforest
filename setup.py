@@ -86,13 +86,13 @@ class PyTest(TestCommand):
 
 setup(
     name='rpforest',
-    version='1.3',
+    version='1.4',
     description='Random Projection Forest for approximate nearest neighbours search.',
     long_description='',
     packages=['rpforest'],
     install_requires=['numpy>=1.8.0,<2.0.0',
                       'pytest>=2.6.0,<2.7.0'],
-    tests_require=['pytest', 'scikit-learn', 'scipy'],
+    tests_require=['pytest', 'scikit-learn<=0.14', 'scipy<=0.16'],
     cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
     author='LYST Ltd (Maciej Kula)',
     author_email='data@lyst.com',
