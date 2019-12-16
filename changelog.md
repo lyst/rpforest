@@ -1,7 +1,8 @@
 # Changelog
 
-## [unreleased][unreleased]
+## [1.4][2019-12-16]
 ### Changed
+- pinned libraries to python2 friendly versions.
 - removed stdint include to allow compiling with MSVC
 
 ## [1.3][2016-01-22]
