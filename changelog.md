@@ -1,5 +1,9 @@
 # Changelog
 
+# [unreleased][unreleased]
+### Changed
+- removed pytest from `install_requires`
+
 ## [1.4][2019-12-16]
 ### Changed
 - pinned libraries to python2 friendly versions.
