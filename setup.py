@@ -86,7 +86,7 @@ class PyTest(TestCommand):
 
 setup(
     name='rpforest',
-    version='1.4',
+    version='1.5',
     description='Random Projection Forest for approximate nearest neighbours search.',
     long_description='',
     packages=['rpforest'],
@@ -96,7 +96,7 @@ setup(
     author='LYST Ltd (Maciej Kula)',
     author_email='data@lyst.com',
     url='https://github.com/lyst/rpforest',
-    download_url='https://github.com/lyst/rpforest/tarball/1.4',
+    download_url='https://github.com/lyst/rpforest/tarball/1.5',
     license='Apache 2.0',
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: Apache Software License'],

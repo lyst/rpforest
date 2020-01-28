@@ -1,6 +1,6 @@
 # Changelog
 
-# [unreleased][unreleased]
+# [1.5][2020-01-28]
 ### Changed
 - removed pytest from `install_requires`
 
