@@ -1,104 +1,106 @@
-import os
-import subprocess
-import sys
+from os import path
 
-from setuptools import setup, Command, Extension
-from setuptools.command.test import test as TestCommand
+from setuptools import setup
+from setuptools.extension import Extension
+from setuptools.command.sdist import sdist as _sdist
 
+here = path.abspath(path.dirname(__file__))
 
-def define_extensions(file_ext):
+with open(path.join(here, "README.md")) as f:
+    long_description = f.read()
 
-    try:
-        import numpy as np
-    except ImportError:
-        print('Please install numpy first.')
-        raise
-
-    return [Extension("rpforest.rpforest_fast",
-                      ['rpforest/rpforest_fast%s' % file_ext],
-                      language="c++",
-                      extra_compile_args=['-ffast-math'],
-                      include_dirs=[np.get_include()])]
+cython_modules = [["rpforest", "rpforest_fast"]]
 
 
-class Cythonize(Command):
-    """
-    Compile the extension .pyx files.
-    """
+def _cythonize(extensions, apply_cythonize):
+    import numpy
 
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-
-        import Cython
+    ext = ".pyx" if apply_cythonize else ".cpp"
+    extensions = [
+        Extension(
+            ".".join(mod),
+            ["/".join(mod) + ext],
+            language="c++",
+            extra_compile_args=["-ffast-math"],
+        )
+        for mod in extensions
+    ]
+    for extension in extensions:
+        extension.include_dirs.append(numpy.get_include())
+        # Add signature for Sphinx
+        extension.cython_directives = {"embedsignature": True}
+    if apply_cythonize:
         from Cython.Build import cythonize
 
-        cythonize(define_extensions('.pyx'))
+        extensions = cythonize(extensions)
+    return extensions
 
 
-class Clean(Command):
-    """
-    Clean build files.
-    """
+class lazy_cythonize(list):
+    # Adopted from https://stackoverflow.com/a/26698408/7820599
 
-    user_options = []
+    def __init__(self, extensions, apply_cythonize=False):
+        super(lazy_cythonize, self).__init__()
+        self._list = extensions
+        self._apply_cythonize = apply_cythonize
+        self._is_cythonized = False
 
-    def initialize_options(self):
-        pass
+    def _cythonize(self):
+        self._list = _cythonize(self._list, self._apply_cythonize)
+        self._is_cythonized = True
 
-    def finalize_options(self):
-        pass
+    def c_list(self):
+        if not self._is_cythonized:
+            self._cythonize()
+        return self._list
 
+    def __iter__(self):
+        for e in self.c_list():
+            yield e
+
+    def __getitem__(self, ii):
+        return self.c_list()[ii]
+
+    def __len__(self):
+        return len(self.c_list())
+
+
+class sdist(_sdist):
     def run(self):
-
-        pth = os.path.dirname(os.path.abspath(__file__))
-
-        subprocess.call(['rm', '-rf', os.path.join(pth, 'build')])
-        subprocess.call(['rm', '-rf', os.path.join(pth, 'rpforest.egg-info')])
-        subprocess.call(['find', pth, '-name', 'rpforest*.pyc', '-type', 'f', '-delete'])
-        subprocess.call(['rm', os.path.join(pth, 'rpforest', 'rpforest_fast.so')])
+        # Force cythonize for sdist
+        _cythonize(cython_modules, True)
+        _sdist.run(self)
 
 
-class PyTest(TestCommand):
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
-
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.pytest_args = ['tests/']
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.pytest_args)
-        sys.exit(errno)
+__version__ = open(path.join(here, "rpforest", "VERSION")).read().strip()
 
 
 setup(
-    name='rpforest',
-    version='1.5',
-    description='Random Projection Forest for approximate nearest neighbours search.',
-    long_description='',
-    packages=['rpforest'],
-    install_requires=['numpy>=1.8.0,<2.0.0'],
-    tests_require=['pytest', 'scikit-learn<=0.14', 'scipy<=0.16'],
-    cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
-    author='LYST Ltd (Maciej Kula)',
-    author_email='data@lyst.com',
-    url='https://github.com/lyst/rpforest',
-    download_url='https://github.com/lyst/rpforest/tarball/1.5',
-    license='Apache 2.0',
-    classifiers=['Development Status :: 3 - Alpha',
-                 'License :: OSI Approved :: Apache Software License'],
-    ext_modules=define_extensions('.cpp')
+    name="rpforest",
+    version=__version__,
+    description="Random Projection Forest for approximate nearest neighbours search.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=["rpforest"],
+    install_requires=["numpy>=1.8.0,<2.0.0"],
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    setup_requires=["numpy>=1.8.0,<2.0.0"],
+    author="LYST Ltd (Maciej Kula)",
+    author_email="data@lyst.com",
+    url="https://github.com/lyst/rpforest",
+    download_url="https://github.com/lyst/rpforest/tarball/1.6",
+    license="Apache 2.0",
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
+    ext_modules=lazy_cythonize(cython_modules),
+    project_urls={"Source": "https://github.com/lyst/rpforest"},
 )

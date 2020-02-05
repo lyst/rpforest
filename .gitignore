@@ -3,3 +3,9 @@
 *.*~
 build/*
 rpforest.egg-info*
+dist/
+.python-version
+.vscode
+.tox
+.eggs
+test_results/

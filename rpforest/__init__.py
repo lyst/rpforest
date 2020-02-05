@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 
-from rpforest.rpforest import RPForest
+from os import path
 
+from rpforest.rpforest import RPForest  # noqa
 
-__version__ = '1.1'
+here = path.abspath(path.dirname(__file__))
+
+__version__ = open(path.join(here, "VERSION")).read().strip()

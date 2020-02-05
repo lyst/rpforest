@@ -1,8 +1,8 @@
 # rpforest
 
-<center>![rpforest](rpforest.jpg)</center>
+![rpforest](https://raw.githubusercontent.com/lyst/rpforest/master/rpforest.jpg)
 
-[![Circle CI](https://circleci.com/gh/lyst/rpforest.svg?style=svg)](https://circleci.com/gh/lyst/rpforest)
+[![CircleCI](https://circleci.com/gh/lyst/rpforest/tree/master.svg?style=svg&circle-token=6ab982f5b17307152e1f3b42b00b8ecc074a764d)](https://circleci.com/gh/lyst/rpforest/tree/master)
 
 rpforest is a Python library for approximate nearest neighbours search: finding points in a high-dimensional space that are close to a given query point in a fast but approximate manner.
 
@@ -26,24 +26,32 @@ Querying the model is accomplished by traversing each tree to the query point's 
 ## Usage
 
 ### Fitting
+
 Model fitting is straightforward:
+
 ```python
 from rpforest import RPForest
 
 model = RPForest(leaf_size=50, no_trees=10)
 model.fit(X)
 ```
+
 The speed-precision tradeoff is governed by the `leaf_size` and `no_trees` parameters. Increasing `leaf_size` leads the model to produce shallower trees with larger leaf nodes; increasing `no_trees` fits more trees.
 
 ### In-memory queries
+
 Where the entire set of points can be kept in memory, rpforest supports in-memory ANN queries. After fitting, ANNs can be obtained by calling:
+
 ```python
 nns = model.query(x_query, 10)
 ```
-Return nearest neighbours for vector x by first retrieving candidate NNs from x's leaf nodes, then merging them and sorting by cosine similarity with x. At most no_trees * leaf_size NNs will can be returned.
+
+Return nearest neighbours for vector x by first retrieving candidate NNs from x's leaf nodes, then merging them and sorting by cosine similarity with x. At most no_trees \* leaf_size NNs will can be returned.
 
 ### Candidate queries
+
 rpforest can support indexing and candidate ANN queries on datasets larger than would fit in available memory. This is accomplished by first fitting the model on a subset of the data, then indexing a larger set of data into the fitted model:
+
 ```python
 from rpforest import RPForest
 
@@ -59,19 +67,23 @@ nns = model.get_candidates(x_query, 10)
 ```
 
 ### Model persistence
+
 Model persistence is achieved simply by pickling and unpickling.
+
 ```python
 model = pickle.loads(pickle.dumps(model))
 ```
 
 ### Performance
+
 [Erik Bernhardsson](https://twitter.com/fulhack), the author of annoy, maintains an ANN [performance shootout](https://github.com/erikbern/ann-benchmarks) repository, comparing a number of Python ANN packages.
 
-On the GloVe cosine distance benchmark, rpforest is not as fast as  highly optimised C and C++ packages like FLANN and annoy. However, it far outerpforms scikit-learn's [LSHForest](http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LSHForest.html) and [panns](https://github.com/ryanrhymes/panns).
+On the GloVe cosine distance benchmark, rpforest is not as fast as highly optimised C and C++ packages like FLANN and annoy. However, it far outerpforms scikit-learn's [LSHForest](http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LSHForest.html) and [panns](https://github.com/ryanrhymes/panns).
 
-<center>![Performance](glove.png)</center>
+![Performance](https://raw.githubusercontent.com/lyst/rpforest/master/glove.png)
 
 ## Development
+
 Pull requests are welcome. To install for development:
 
 1. Clone the rpforest repository: `git clone git@github.com:lyst/rpforest.git`

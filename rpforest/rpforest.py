@@ -2,8 +2,7 @@ from __future__ import absolute_import
 
 import numpy as np
 
-from rpforest.rpforest_fast import (Tree, query_all, encode_all,
-                                    get_candidates_all)
+from rpforest.rpforest_fast import Tree, query_all, encode_all, get_candidates_all
 
 
 SERIALIZATION_VERSION = 2
@@ -42,8 +41,7 @@ class RPForest(object):
 
     def _is_constructed(self):
 
-        return (self.dim is not None
-                and self.trees)
+        return self.dim is not None and self.trees
 
     def _has_vectors(self):
 
@@ -64,7 +62,7 @@ class RPForest(object):
         """
 
         if X.shape[0] < 1 or X.shape[1] < 1:
-            raise Exception('You must supply a valid 2D array.')
+            raise Exception("You must supply a valid 2D array.")
 
         self.dim = X.shape[1]
 
@@ -91,7 +89,7 @@ class RPForest(object):
         """
 
         if not self._is_constructed():
-            raise Exception('Tree has not been fit')
+            raise Exception("Tree has not been fit")
 
         for tree in self.trees:
             tree.clear()
@@ -108,12 +106,12 @@ class RPForest(object):
         """
 
         if not self._is_constructed():
-            raise Exception('Tree has not been fit')
+            raise Exception("Tree has not been fit")
 
         if self._has_vectors():
-            raise Exception('Indexing not supported '
-                            'without calling .clear() '
-                            'first.')
+            raise Exception(
+                "Indexing not supported " "without calling .clear() " "first."
+            )
 
         assert len(x) == self.dim
 
@@ -130,7 +128,7 @@ class RPForest(object):
         and sorting by cosine similarity with x.
 
         Vectors for each point must be available.
-        
+
         At most no_trees * leaf_size NNs will can be returned.
 
         Arguments:
@@ -139,10 +137,10 @@ class RPForest(object):
         """
 
         if not self._is_constructed():
-            raise Exception('Tree has not been fit')
+            raise Exception("Tree has not been fit")
 
         if not self._has_vectors():
-            raise Exception('No point vectors found.')
+            raise Exception("No point vectors found.")
 
         assert self._X.shape[1] == self.dim
         assert len(x) == self.dim
@@ -164,15 +162,14 @@ class RPForest(object):
         """
 
         if not self._is_constructed():
-            raise Exception('Tree has not been fit')
+            raise Exception("Tree has not been fit")
 
         assert len(x) == self.dim
 
         if normalise:
             x = x / np.linalg.norm(x)
 
-        return get_candidates_all(x, self.trees,
-                                  self.dim, number)
+        return get_candidates_all(x, self.trees, self.dim, number)
 
     def encode(self, x, normalise=True):
         """
@@ -180,7 +177,7 @@ class RPForest(object):
         """
 
         if not self._is_constructed():
-            raise Exception('Tree has not been fit')
+            raise Exception("Tree has not been fit")
 
         assert len(x) == self.dim
 
@@ -197,7 +194,7 @@ class RPForest(object):
 
         for i, tree in enumerate(self.trees):
             for leaf_code, indices in tree.get_leaf_nodes():
-                yield '%s:' % i + leaf_code, indices
+                yield "%s:" % i + leaf_code, indices
 
     def _get_size(self):
 
@@ -210,34 +207,37 @@ class RPForest(object):
 
     def __getstate__(self):
 
-        state = {'dim': self.dim,
-                 'leaf_size': self.leaf_size,
-                 'no_trees': self.no_trees,
-                 'serialization_version': self.serialization_version,
-                 'X': self._X}
+        state = {
+            "dim": self.dim,
+            "leaf_size": self.leaf_size,
+            "no_trees": self.no_trees,
+            "serialization_version": self.serialization_version,
+            "X": self._X,
+        }
 
         tree_states = []
 
         for tree in self.trees:
             tree_states.append(tree.serialize())
 
-        state['trees'] = tree_states
+        state["trees"] = tree_states
 
         return state
 
     def __setstate__(self, state):
 
-        self.dim = state['dim']
-        self.leaf_size = state['leaf_size']
-        self.no_trees = state['no_trees']
-        self._X = state['X']
+        self.dim = state["dim"]
+        self.leaf_size = state["leaf_size"]
+        self.no_trees = state["no_trees"]
+        self._X = state["X"]
 
         self.trees = []
 
-        for tree_state in state['trees']:
+        for tree_state in state["trees"]:
             tree = Tree(self.leaf_size, self.dim)
-            tree.deserialize(tree_state, state.get('serialization_version', 1))
+            tree.deserialize(tree_state, state.get("serialization_version", 1))
             self.trees.append(tree)
 
-        # Make sure that when serialized again it gets the right serialization version
+        # Make sure that when serialized again it gets the
+        # right serialization version
         self.serialization_version = SERIALIZATION_VERSION
