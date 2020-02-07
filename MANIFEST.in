@@ -1,0 +1,7 @@
+include LICENSE
+include rpforest/VERSION
+include *.md
+include *.toml
+include pytest.ini
+recursive-include rpforest *.pyx
+recursive-include tests *.py *.pickle

@@ -1,0 +1,66 @@
+version: 2
+
+jobs:
+  test-2.7: &test_template
+    docker:
+      - image: circleci/python:2.7.17
+        environment:
+          TOX_ENV: py27
+    steps:
+      - checkout
+      - run:
+          name: Install tox
+          command: pip install --user tox
+      - run:
+          name: Tox
+          command: ~/.local/bin/tox -e ${TOX_ENV}
+      - store_test_results:
+          path: tmp/test_results
+      - store_artifacts:
+          path: dist
+
+  test-3.5:
+    <<: *test_template
+    docker:
+      - image: circleci/python:3.5.9
+        environment:
+          TOX_ENV: py35
+
+  test-3.6:
+    <<: *test_template
+    docker:
+      - image: circleci/python:3.6.10
+        environment:
+          TOX_ENV: py36
+
+  test-3.7:
+    <<: *test_template
+    docker:
+      - image: circleci/python:3.7.6
+        environment:
+          TOX_ENV: py37
+
+  test-3.8:
+    <<: *test_template
+    docker:
+      - image: circleci/python:3.8.1
+        environment:
+          TOX_ENV: py38
+
+  lint:
+    <<: *test_template
+    docker:
+      - image: circleci/python:3.8.1
+        environment:
+          TOX_ENV: lint
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-2.7
+      - test-3.5
+      - test-3.6
+      - test-3.7
+      - test-3.8
+      - lint

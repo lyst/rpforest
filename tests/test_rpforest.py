@@ -1,4 +1,5 @@
-import cPickle as pickle
+import six
+from six.moves import cPickle as pickle
 import os
 
 import numpy as np
@@ -10,7 +11,7 @@ from rpforest import RPForest
 
 def _get_mnist_data(seed=None):
 
-    digits = load_digits()['images']
+    digits = load_digits()["images"]
 
     if seed is not None:
         rnd = np.random.RandomState(seed=seed)
@@ -32,10 +33,7 @@ def test_find_self():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.3),
-                                         (10, 0.5),
-                                         (50, 0.9)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.3), (10, 0.5), (50, 0.9)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         tree.fit(X_train)
@@ -94,10 +92,7 @@ def test_encoding_mnist():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.3),
-                                         (10, 0.5),
-                                         (50, 0.9)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.3), (10, 0.5), (50, 0.9)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         tree.fit(X_train)
@@ -119,10 +114,7 @@ def test_serialization_mnist():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.3),
-                                         (10, 0.5),
-                                         (50, 0.9)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.3), (10, 0.5), (50, 0.9)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         tree.fit(X_train)
@@ -148,10 +140,7 @@ def test_mnist():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.3),
-                                         (10, 0.5),
-                                         (50, 0.9)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.3), (10, 0.5), (50, 0.9)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         tree.fit(X_train)
@@ -174,11 +163,7 @@ def test_candidates_mnist():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.12),
-                                         (10, 0.2),
-                                         (50, 0.5),
-                                         (80, 0.6)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.12), (10, 0.2), (50, 0.5), (80, 0.6)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         tree.fit(X_train)
@@ -205,14 +190,12 @@ def test_sample_training():
 
     X_train, X_test = _get_mnist_data()
 
-    for no_trees, expected_precision in ((1, 0.05),
-                                         (5, 0.3),
-                                         (10, 0.5),
-                                         (50, 0.9)):
+    for no_trees, expected_precision in ((1, 0.05), (5, 0.3), (10, 0.5), (50, 0.9)):
 
         tree = RPForest(leaf_size=10, no_trees=no_trees)
         # Fit on quarter of data
-        X_sample = X_train[:X_train.shape[0] / 4]
+        slice_size = int(X_train.shape[0] / 4)
+        X_sample = X_train[:slice_size]
         tree.fit(X_sample)
         # Clear and index everything
         tree.clear()
@@ -252,15 +235,18 @@ def test_load_v1_model():
     Make sure that models serialized using older versions deserialize correctly
     """
 
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        'rpforest_v1.pickle')
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rpforest_v1.pickle")
 
-    with open(path, 'rb') as fl:
-        tree = pickle.loads(fl.read())
+    with open(path, "rb") as fl:
+        data = fl.read()
+        if six.PY2:
+            tree = pickle.loads(data)
+        elif six.PY3:
+            tree = pickle.loads(data, encoding="iso-8859-1")
+        else:
+            assert False
 
     X_train, X_test = _get_mnist_data(seed=10)
-
-    expected_precision = 0.9
 
     nodes = {k: set(v) for k, v in tree.get_leaf_nodes()}
     for i, x_train in enumerate(X_train):

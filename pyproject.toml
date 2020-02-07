@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.check-manifest]
+ignore = [
+    ".circleci",
+    ".circleci/config.yml",
+    "glove.png",
+    "rpforest.jpg",
+    "tox.ini",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py27"]

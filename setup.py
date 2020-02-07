@@ -1,24 +1,65 @@
-import os
+from os import path
 import subprocess
 import sys
 
 from setuptools import setup, Command, Extension
-from setuptools.command.test import test as TestCommand
+from distutils.command.clean import clean as distutils_clean
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, "README.md")) as f:
+    long_description = f.read()
+
+try:
+    import numpy
+
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+
+
+try:
+    from Cython.Build import cythonize
+
+    CYTHON_AVAILABLE = True
+except ImportError:
+    CYTHON_AVAILABLE = False
+
+
+class NumpyNotInstalled(Exception):
+    def __str__(self):
+        return "NumPY is not installed"
+
+
+class CythonNotInstalled(Exception):
+    def __str__(self):
+        return "Cython is not installed"
+
+
+def _get_extension(extension, file_ext):
+    kwargs = {
+        "name": ".".join(extension),
+        "sources": ["%s.%s" % ("/".join(extension), file_ext)],
+        "language": "c++",
+        "extra_compile_args": ["-ffast-math"],
+    }
+    if NUMPY_AVAILABLE:
+        # most of the time it's fine if the include_dirs aren't there
+        kwargs["include_dirs"] = [numpy.get_include()]
+    else:
+        color_red_bold = "\033[1;31m"
+        color_reset = "\033[m"
+        sys.stderr.write(
+            "%sNumpy is not available so we cannot include the libraries\n"
+            "It will result in compilation failures where the numpy headers "
+            "are missing.\n%s" % (color_red_bold, color_reset),
+        )
+    return Extension(**kwargs)
 
 
 def define_extensions(file_ext):
-
-    try:
-        import numpy as np
-    except ImportError:
-        print('Please install numpy first.')
-        raise
-
-    return [Extension("rpforest.rpforest_fast",
-                      ['rpforest/rpforest_fast%s' % file_ext],
-                      language="c++",
-                      extra_compile_args=['-ffast-math'],
-                      include_dirs=[np.get_include()])]
+    extensions = [["rpforest", "rpforest_fast"]]
+    return [_get_extension(ext, file_ext) for ext in extensions]
 
 
 class Cythonize(Command):
@@ -35,70 +76,55 @@ class Cythonize(Command):
         pass
 
     def run(self):
+        if not CYTHON_AVAILABLE:
+            raise CythonNotInstalled
+        if not NUMPY_AVAILABLE:
+            raise NumpyNotInstalled
+        extensions = define_extensions("pyx")
+        # language_level sets it py2 compatible
+        cythonize(extensions, compiler_directives={"language_level": "2"})
 
-        import Cython
-        from Cython.Build import cythonize
 
-        cythonize(define_extensions('.pyx'))
-
-
-class Clean(Command):
-    """
-    Clean build files.
-    """
-
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
+class clean(distutils_clean):
     def run(self):
-
-        pth = os.path.dirname(os.path.abspath(__file__))
-
-        subprocess.call(['rm', '-rf', os.path.join(pth, 'build')])
-        subprocess.call(['rm', '-rf', os.path.join(pth, 'rpforest.egg-info')])
-        subprocess.call(['find', pth, '-name', 'rpforest*.pyc', '-type', 'f', '-delete'])
-        subprocess.call(['rm', os.path.join(pth, 'rpforest', 'rpforest_fast.so')])
+        distutils_clean.run(self)
+        subprocess.call(["rm", "-rf", path.join(here, "build")])
+        subprocess.call(["rm", "-rf", path.join(here, "rpforest.egg-info")])
+        subprocess.call(["find", here, "-name", "rpforest*.pyc", "-type", "f", "-delete"])
+        subprocess.call(["find", here, "-name", "rpforest_fast*.so", "-type", "f", "-delete"])
 
 
-class PyTest(TestCommand):
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
-
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.pytest_args = ['tests/']
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.pytest_args)
-        sys.exit(errno)
+__version__ = open(path.join(here, "rpforest", "VERSION")).read().strip()
 
 
 setup(
-    name='rpforest',
-    version='1.5',
-    description='Random Projection Forest for approximate nearest neighbours search.',
-    long_description='',
-    packages=['rpforest'],
-    install_requires=['numpy>=1.8.0,<2.0.0'],
-    tests_require=['pytest', 'scikit-learn<=0.14', 'scipy<=0.16'],
-    cmdclass={'test': PyTest, 'cythonize': Cythonize, 'clean': Clean},
-    author='LYST Ltd (Maciej Kula)',
-    author_email='data@lyst.com',
-    url='https://github.com/lyst/rpforest',
-    download_url='https://github.com/lyst/rpforest/tarball/1.5',
-    license='Apache 2.0',
-    classifiers=['Development Status :: 3 - Alpha',
-                 'License :: OSI Approved :: Apache Software License'],
-    ext_modules=define_extensions('.cpp')
+    name="rpforest",
+    version=__version__,
+    description="Random Projection Forest for approximate nearest neighbours search.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=["rpforest"],
+    install_requires=["numpy>=1.8.0,<2.0.0"],
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    setup_requires=["numpy>=1.8.0,<2.0.0"],
+    cmdclass={"cythonize": Cythonize, "clean": clean},
+    author="LYST Ltd (Maciej Kula)",
+    author_email="data@lyst.com",
+    url="https://github.com/lyst/rpforest",
+    download_url="https://github.com/lyst/rpforest/tarball/%s" % (__version__,),
+    license="Apache 2.0",
+    include_package_data=True,
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
+    ext_modules=define_extensions("cpp"),
+    project_urls={"Source": "https://github.com/lyst/rpforest"},
 )
